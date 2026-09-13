@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Mi Alcancía</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23faf1ee'/%3E%3Ccircle cx='50' cy='50' r='45.6' fill='none' stroke='%23c9a15a' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='38.3' fill='%23b5486b'/%3E%3Cg stroke='%23e9cf9c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'%3E%3Cpath d='M40 53a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v20.5a3 3 0 0 1-3 3H45a3 3 0 0 1-3-3V53Z'/%3E%3Crect x='43.4' y='44.9' width='14' height='5.9' rx='1.8'/%3E%3C/g%3E%3Ccircle cx='50' cy='33.5' r='4.2' fill='%23e9cf9c' stroke='%23a9803f' stroke-width='0.6'/%3E%3Ctext x='50' y='35.5' text-anchor='middle' font-family='Georgia, serif' font-size='4.5' fill='%23a9803f'%3E%24%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#ff6fa0">
@@ -31,7 +31,7 @@
     --expense-bg:#f9e6e4;
     --border:#ffd9e6;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;touch-action:manipulation;}
   body{
     margin:0;
     background-color:var(--bg);
@@ -160,7 +160,7 @@
     display:none;
     align-items:center;justify-content:center;
     padding:20px;
-    z-index:50;
+    z-index:300;
   }
   .overlay.open{display:flex;}
   .modal{
@@ -328,7 +328,7 @@
 
   .toast-container{
     position:fixed;top:35%;left:50%;transform:translate(-50%,-50%);
-    z-index:100;display:flex;flex-direction:column;gap:8px;align-items:center;
+    z-index:400;display:flex;flex-direction:column;gap:8px;align-items:center;
     pointer-events:none;
   }
   .toast{
@@ -1269,7 +1269,7 @@ function renderProfileGrid(){
       ${p.password ? '<span class="profile-lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>' : ''}
     </div>
   `).join('') + `
-    <div class="profile-add" onclick="showToast('Toque detectado ✅'); openNewProfileModal();">
+    <div class="profile-add" onclick="openNewProfileModal()">
       <div class="profile-add-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
       </div>
