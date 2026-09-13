@@ -327,7 +327,7 @@
   .confirm-message{font-size:14px;color:var(--text);margin:0 0 20px;line-height:1.5;}
 
   .toast-container{
-    position:fixed;top:35%;left:50%;transform:translate(-50%,-50%);
+    position:fixed;top:16%;left:50%;transform:translate(-50%,-50%);
     z-index:400;display:flex;flex-direction:column;gap:8px;align-items:center;
     pointer-events:none;
   }
@@ -537,7 +537,7 @@
     Instalar
   </button>
   <div class="profile-wrap">
-    <svg width="56" height="56" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 14px;display:block;" id="codeLogoSvg">
+    <svg width="56" height="56" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 14px;display:block;cursor:pointer;" id="codeLogoSvg" onclick="handleOwnerTap()">
       <circle cx="50" cy="50" r="48" fill="#faf1ee"/>
       <circle cx="50" cy="50" r="45.6" fill="none" stroke="#c9a15a" stroke-width="1"/>
       <circle cx="50" cy="50" r="38.3" fill="#b5486b"/>
@@ -553,7 +553,15 @@
     <div id="codeChoice">
       <p>¿Ya tienes un código o es tu primera vez?</p>
       <button class="btn-primary" style="max-width:280px;margin:0 auto 10px;display:block;padding:12px 24px;" onclick="showCodeMode('enter')">🔑 Ya tengo un código</button>
-      <button class="btn-secondary" style="max-width:280px;margin:0 auto;display:block;padding:12px 24px;" onclick="startGenerateCode()">✨ Generar código</button>
+      <button class="btn-secondary" style="max-width:280px;margin:0 auto;display:block;padding:12px 24px;" onclick="showCodeMode('phone')">✨ Generar código</button>
+    </div>
+
+    <div id="codePhoneBox" class="hidden">
+      <p>Escribe tu número de teléfono, por si un día pierdes tu código o contraseña.</p>
+      <input type="tel" id="codePhoneInput" placeholder="Tu número de teléfono" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;">
+      <p class="hint">Es opcional, pero sin él no vas a poder recuperar tu código si lo olvidas.</p>
+      <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="startGenerateCode()">Continuar</button>
+      <button class="edit-profiles-link" style="display:block;margin:14px auto 0;" onclick="showCodeMode('choice')">Volver</button>
     </div>
 
     <div id="codeEnterBox" class="hidden">
@@ -568,7 +576,18 @@
       </div>
       <p class="error-text" id="codeError" style="text-align:center;">Código o contraseña incorrectos.</p>
       <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="submitCode()">Entrar</button>
-      <button class="edit-profiles-link" style="display:block;margin:14px auto 0;" onclick="showCodeMode('choice')">Volver</button>
+      <button class="edit-profiles-link" style="display:block;margin:10px auto 0;" onclick="showCodeMode('recover')">¿Olvidaste tu código o contraseña?</button>
+      <button class="edit-profiles-link" style="display:block;margin:6px auto 0;" onclick="showCodeMode('choice')">Volver</button>
+    </div>
+
+    <div id="codeRecoverBox" class="hidden">
+      <p>Escribe el número de teléfono con el que registraste tu código.</p>
+      <input type="tel" id="recoverPhoneInput" placeholder="Tu número de teléfono" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;">
+      <p class="error-text" id="recoverError" style="text-align:center;">No encontramos un código con ese número en este dispositivo.</p>
+      <p class="hint" id="recoverSuccessMsg" style="display:none;"></p>
+      <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="submitRecoverPhone()">Buscar mi código</button>
+      <button class="edit-profiles-link" style="display:block;margin:14px auto 0;" onclick="showCodeMode('enter')">Volver</button>
+      <p class="hint" style="margin-top:10px;">Nota: esto solo funciona si generaste tu código desde este mismo celular y navegador.</p>
     </div>
 
     <div id="codeGeneratingBox" class="hidden" style="position:relative;">
@@ -616,6 +635,7 @@
     <p>Elige tu perfil para ver tus cuentas</p>
     <div class="profile-grid" id="profileGrid"></div>
     <button class="edit-profiles-link" onclick="changeCode()">Cambiar código</button>
+    <button class="edit-profiles-link" style="display:block;margin:8px auto 0;" onclick="openPhoneManageModal()">📱 Mi número de recuperación</button>
   </div>
 </div>
 
@@ -671,6 +691,9 @@
     <button class="add-btn" onclick="openNewAccountModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
       Nueva cuenta
+    </button>
+    <button class="gear-btn" onclick="shareApp()" aria-label="Compartir app">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
     </button>
   </div>
 
@@ -932,6 +955,66 @@
   </div>
 </div>
 
+<!-- Modal: número de recuperación -->
+<div class="overlay" id="phoneManageModal">
+  <div class="modal" style="max-width:380px;">
+    <button class="close-x" onclick="closeModal('phoneManageModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2>Mi número de recuperación</h2>
+    <label for="phoneManageInput">Número de teléfono</label>
+    <input type="tel" id="phoneManageInput" placeholder="Tu número de teléfono">
+    <p class="hint" style="margin-bottom:16px;">Se usa solo para recuperar tu código y contraseña si los olvidas, desde este mismo celular.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('phoneManageModal')">Cancelar</button>
+      <button class="btn-primary" onclick="submitPhoneManage()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: acceso oculto de propietaria -->
+<div class="overlay" id="ownerGateModal">
+  <div class="modal" style="max-width:380px;">
+    <button class="close-x" onclick="closeModal('ownerGateModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2>Acceso de propietaria</h2>
+    <p>Tu código de un solo uso (nuevo cada vez, nunca se repite):</p>
+    <p style="font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--primary-dark);text-align:center;margin:14px 0;" id="ownerCodeDisplay"></p>
+    <label for="ownerCodeInput">Escríbelo para confirmar que eres tú</label>
+    <input type="text" id="ownerCodeInput" placeholder="Escribe el código de arriba" style="text-transform:uppercase;">
+    <p class="error-text" id="ownerCodeError">Ese código no es correcto.</p>
+    <button class="btn-primary" style="width:100%;" onclick="submitOwnerCode()">Entrar</button>
+  </div>
+</div>
+
+<!-- Modal: panel de propietaria -->
+<div class="overlay" id="ownerDashboardModal">
+  <div class="modal">
+    <button class="close-x" onclick="closeModal('ownerDashboardModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2>Panel de propietaria</h2>
+    <div class="stats-row">
+      <div class="stat-box income">
+        <span>Códigos creados</span>
+        <strong id="ownerStatCodes">0</strong>
+      </div>
+      <div class="stat-box income">
+        <span>Con perfiles</span>
+        <strong id="ownerStatCodesWithProfiles">0</strong>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box expense">
+        <span>Veces compartida</span>
+        <strong id="ownerStatShares">0</strong>
+      </div>
+    </div>
+    <p class="hint">"Veces compartida" solo cuenta cuando alguien usa el botón "Compartir" de la propia app — no detecta si alguien copia el enlace directo del navegador.</p>
+  </div>
+</div>
+
 <!-- Modal: cómo instalar -->
 <div class="overlay" id="installHelpModal">
   <div class="modal" style="max-width:400px;">
@@ -1128,6 +1211,8 @@ async function loadRememberedLogin(){
 function showCodeMode(mode){
   document.getElementById('codeChoice').classList.toggle('hidden', mode !== 'choice');
   document.getElementById('codeEnterBox').classList.toggle('hidden', mode !== 'enter');
+  document.getElementById('codePhoneBox').classList.toggle('hidden', mode !== 'phone');
+  document.getElementById('codeRecoverBox').classList.toggle('hidden', mode !== 'recover');
   document.getElementById('codeGeneratingBox').classList.add('hidden');
   document.getElementById('codeEnteringBox').classList.add('hidden');
   document.getElementById('codeResultBox').classList.add('hidden');
@@ -1139,11 +1224,45 @@ function showCodeMode(mode){
       document.getElementById('codeLoginPassword').value = saved ? saved.password : '';
       setTimeout(()=> document.getElementById(saved ? 'codeLoginPassword' : 'codeInput').focus(), 100);
     });
+  }else if(mode === 'phone'){
+    document.getElementById('codePhoneInput').value = '';
+  }else if(mode === 'recover'){
+    document.getElementById('recoverPhoneInput').value = '';
+    document.getElementById('recoverError').style.display = 'none';
+    document.getElementById('recoverSuccessMsg').style.display = 'none';
   }
 }
 
+async function submitRecoverPhone(){
+  const phone = document.getElementById('recoverPhoneInput').value.trim();
+  document.getElementById('recoverError').style.display = 'none';
+  document.getElementById('recoverSuccessMsg').style.display = 'none';
+  if(!phone) return;
+  const registry = await getCodeRegistry();
+  for(const code of registry){
+    const meta = await getCodeMeta(code);
+    if(meta && meta.phone === phone){
+      await setCodeMeta(code, {password: meta.password, mustChange: true, phone: meta.phone});
+      document.getElementById('recoverSuccessMsg').textContent = `Encontramos tu código: ${code}. Vas a tener que crear una contraseña nueva.`;
+      document.getElementById('recoverSuccessMsg').style.display = 'block';
+      currentCode = code;
+      setTimeout(()=>{
+        document.getElementById('forceNewPassword').value = '';
+        document.getElementById('forceNewPasswordConfirm').value = '';
+        document.getElementById('forceChangeError').style.display = 'none';
+        document.getElementById('codeRecoverBox').classList.add('hidden');
+        document.getElementById('codeForceChangeBox').classList.remove('hidden');
+      }, 1800);
+      return;
+    }
+  }
+  document.getElementById('recoverError').style.display = 'block';
+}
+
 async function startGenerateCode(){
+  const phone = document.getElementById('codePhoneInput').value.trim();
   document.getElementById('codeChoice').classList.add('hidden');
+  document.getElementById('codePhoneBox').classList.add('hidden');
   document.getElementById('codeEnterBox').classList.add('hidden');
   document.getElementById('codeResultBox').classList.add('hidden');
   document.getElementById('codeForceChangeBox').classList.add('hidden');
@@ -1156,7 +1275,7 @@ async function startGenerateCode(){
 
   setTimeout(async ()=>{
     await addCodeToRegistry(newCode);
-    await setCodeMeta(newCode, {password: newPassword, mustChange: true});
+    await setCodeMeta(newCode, {password: newPassword, mustChange: true, phone: phone || null});
 
     document.getElementById('resultCode').textContent = newCode;
     document.getElementById('resultPassword').textContent = newPassword;
@@ -1220,12 +1339,103 @@ async function submitForcePasswordChange(){
     return;
   }
   document.getElementById('forceChangeError').style.display = 'none';
-  await setCodeMeta(currentCode, {password: p1, mustChange: false});
+  const existingMeta = await getCodeMeta(currentCode);
+  await setCodeMeta(currentCode, {password: p1, mustChange: false, phone: existingMeta ? existingMeta.phone : null});
   await rememberLogin(currentCode, p1);
   document.getElementById('codeScreen').classList.add('hidden');
   document.getElementById('profileScreen').classList.remove('hidden');
   showToast('Contraseña actualizada');
   loadProfiles();
+}
+
+/* ---------- Acceso oculto de propietaria ---------- */
+
+const OWNER_USED_CODES_KEY = 'owner_codigos_usados';
+const SHARE_COUNT_KEY = 'veces_compartidas';
+let ownerTapCount = 0;
+let ownerTapTimer = null;
+let currentOwnerCode = null;
+
+function handleOwnerTap(){
+  ownerTapCount++;
+  clearTimeout(ownerTapTimer);
+  ownerTapTimer = setTimeout(()=> ownerTapCount = 0, 2500);
+  if(ownerTapCount >= 5){
+    ownerTapCount = 0;
+    openOwnerGate();
+  }
+}
+
+async function openOwnerGate(){
+  const usedRes = await storageGet(OWNER_USED_CODES_KEY);
+  const used = usedRes && usedRes.value ? JSON.parse(usedRes.value) : [];
+  let candidate;
+  do{
+    candidate = randomCode(6);
+  }while(used.includes(candidate));
+  used.push(candidate);
+  await storageSet(OWNER_USED_CODES_KEY, JSON.stringify(used));
+  currentOwnerCode = candidate;
+  document.getElementById('ownerCodeDisplay').textContent = candidate;
+  document.getElementById('ownerCodeInput').value = '';
+  document.getElementById('ownerCodeError').style.display = 'none';
+  document.getElementById('ownerGateModal').classList.add('open');
+}
+
+async function submitOwnerCode(){
+  const val = document.getElementById('ownerCodeInput').value.trim().toUpperCase();
+  if(val !== currentOwnerCode){
+    document.getElementById('ownerCodeError').style.display = 'block';
+    return;
+  }
+  closeModal('ownerGateModal');
+  await openOwnerDashboard();
+}
+
+async function openOwnerDashboard(){
+  const registry = await getCodeRegistry();
+  let withProfiles = 0;
+  for(const code of registry){
+    const res = await storageGet('perfiles:' + code);
+    const list = res && res.value ? JSON.parse(res.value) : [];
+    if(list.length > 0) withProfiles++;
+  }
+  const sharesRes = await storageGet(SHARE_COUNT_KEY);
+  const shares = sharesRes && sharesRes.value ? parseInt(sharesRes.value, 10) : 0;
+
+  document.getElementById('ownerStatCodes').textContent = registry.length;
+  document.getElementById('ownerStatCodesWithProfiles').textContent = withProfiles;
+  document.getElementById('ownerStatShares').textContent = shares;
+  document.getElementById('ownerDashboardModal').classList.add('open');
+}
+
+async function shareApp(){
+  const url = window.location.href;
+  try{
+    if(navigator.share){
+      await navigator.share({title: 'Mi alcancía', url});
+    }else{
+      await navigator.clipboard.writeText(url);
+      showToast('Enlace copiado');
+    }
+    const res = await storageGet(SHARE_COUNT_KEY);
+    const count = (res && res.value ? parseInt(res.value, 10) : 0) + 1;
+    await storageSet(SHARE_COUNT_KEY, String(count));
+  }catch(e){}
+}
+
+async function openPhoneManageModal(){
+  const meta = await getCodeMeta(currentCode);
+  document.getElementById('phoneManageInput').value = meta && meta.phone ? meta.phone : '';
+  document.getElementById('phoneManageModal').classList.add('open');
+}
+
+async function submitPhoneManage(){
+  const phone = document.getElementById('phoneManageInput').value.trim();
+  const meta = await getCodeMeta(currentCode);
+  await setCodeMeta(currentCode, {password: meta ? meta.password : null, mustChange: meta ? meta.mustChange : false, phone: phone || null});
+  closeModal('phoneManageModal');
+  showToast('Número actualizado');
 }
 
 function changeCode(){
@@ -2082,12 +2292,17 @@ function handlePhotoSelect(event, previewId){
   reader.readAsDataURL(file);
 }
 
+let submittingAccount = false;
+
 async function submitAccountModal(){
+  if(submittingAccount) return;
+  submittingAccount = true;
   const name = document.getElementById('accName').value.trim();
   const goalRaw = document.getElementById('accGoal').value;
   const goal = goalRaw ? parseFloat(goalRaw) : null;
   if(!name){
     document.getElementById('accNameError').style.display = 'block';
+    submittingAccount = false;
     return;
   }
   document.getElementById('accNameError').style.display = 'none';
@@ -2122,6 +2337,7 @@ async function submitAccountModal(){
   if(accountModalMode === 'edit') renderDetail();
   closeModal('accountModal');
   showToast(accountModalMode === 'edit' ? 'Cambios guardados' : 'Cuenta creada');
+  submittingAccount = false;
 }
 
 function openDetail(id){
