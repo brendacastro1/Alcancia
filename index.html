@@ -327,7 +327,7 @@
   .confirm-message{font-size:14px;color:var(--text);margin:0 0 20px;line-height:1.5;}
 
   .toast-container{
-    position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
+    position:fixed;top:35%;left:50%;transform:translate(-50%,-50%);
     z-index:100;display:flex;flex-direction:column;gap:8px;align-items:center;
     pointer-events:none;
   }
@@ -338,6 +338,98 @@
     white-space:nowrap;
   }
   .toast.show{opacity:1;transform:translateY(0);}
+
+  /* Perfiles */
+  #profileScreen{
+    position:fixed;inset:0;z-index:200;
+    background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  #profileScreen.hidden{display:none;}
+  .profile-wrap{max-width:480px;width:100%;text-align:center;}
+  .profile-wrap h1{margin-bottom:4px;}
+  .profile-wrap p{color:var(--text-secondary);margin:0 0 28px;}
+  .profile-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+    gap:18px;margin-bottom:24px;
+  }
+  .profile-item{
+    background:var(--card);border:1px solid var(--border);border-radius:18px;
+    padding:18px 10px;cursor:pointer;position:relative;
+    transition:transform 0.15s ease;
+  }
+  .profile-item:hover{transform:translateY(-2px);}
+  .profile-avatar{
+    width:64px;height:64px;border-radius:50%;margin:0 auto 10px;
+    background:var(--primary-pale);display:flex;align-items:center;justify-content:center;
+    overflow:hidden;font-size:30px;color:var(--primary);
+  }
+  .profile-avatar img{width:100%;height:100%;object-fit:cover;}
+  .profile-name{font-weight:600;font-size:14px;color:var(--text);word-break:break-word;}
+  .profile-lock{position:absolute;top:8px;right:8px;color:var(--text-secondary);}
+  .profile-remove{
+    position:absolute;top:-8px;left:-8px;width:24px;height:24px;border-radius:50%;
+    background:var(--expense);color:#fff;border:none;cursor:pointer;font-size:14px;
+    display:none;align-items:center;justify-content:center;line-height:1;
+  }
+  .profile-item.edit-mode .profile-remove{display:flex;}
+  .profile-add{
+    background:none;border:2px dashed var(--border);border-radius:18px;
+    padding:18px 10px;cursor:pointer;color:var(--text-secondary);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  }
+  .profile-add:hover{border-color:var(--primary);color:var(--primary-dark);}
+  .profile-add-icon{
+    width:64px;height:64px;border-radius:50%;border:2px dashed var(--border);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .edit-profiles-link{
+    background:none;border:none;color:var(--text-secondary);font-size:13px;
+    cursor:pointer;text-decoration:underline;
+  }
+  .emoji-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+  .emoji-swatch{
+    width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+    background:#fff;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .emoji-swatch.selected{background:var(--primary-pale);border-color:var(--primary);}
+  input[type=password]{
+    width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:12px;
+    font-family:'Inter',sans-serif;font-size:15px;color:var(--text);background:#fff;
+    margin-bottom:16px;letter-spacing:2px;
+  }
+  input[type=password]:focus{outline:none;border-color:var(--primary);}
+
+  #loadingScreen{
+    position:fixed;inset:0;z-index:300;
+    background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+  }
+  #loadingScreen.hidden{display:none;}
+  .loading-box{text-align:center;}
+  .loading-box svg{animation:loadingPulse 1.1s ease-in-out infinite;}
+  .loading-box p{
+    margin-top:16px;font-family:'Fraunces',serif;font-size:19px;color:var(--primary-dark);
+  }
+  @keyframes loadingPulse{
+    0%,100%{transform:scale(1);opacity:1;}
+    50%{transform:scale(1.08);opacity:0.85;}
+  }
+
+  .switch-profile-btn{
+    background:none;border:1px solid var(--border);border-radius:999px;
+    padding:6px 14px 6px 6px;cursor:pointer;color:var(--text);
+    display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
+    font-family:'Inter',sans-serif;
+  }
+  .switch-profile-btn:hover{background:var(--primary-pale);}
+  .switch-profile-avatar{
+    width:26px;height:26px;border-radius:50%;background:var(--primary-pale);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:14px;
+  }
+  .switch-profile-avatar img{width:100%;height:100%;object-fit:cover;}
+
 
   .swatch-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
   .color-swatch{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;}
@@ -386,7 +478,36 @@
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<!-- Pantalla de perfiles -->
+<div id="profileScreen">
+  <div class="profile-wrap">
+    <h1>¿Quién eres?</h1>
+    <p>Elige tu perfil para ver tus cuentas</p>
+    <div class="profile-grid" id="profileGrid"></div>
+    <button class="edit-profiles-link" id="editProfilesLink" onclick="toggleEditProfiles()">Editar perfiles</button>
+  </div>
+</div>
+
+<!-- Pantalla de carga -->
+<div id="loadingScreen" class="hidden">
+  <div class="loading-box">
+    <svg width="64" height="64" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" fill="#faf1ee"/>
+      <circle cx="50" cy="50" r="45.6" fill="none" stroke="#c9a15a" stroke-width="1"/>
+      <circle cx="50" cy="50" r="38.3" fill="#b5486b"/>
+      <g stroke="#e9cf9c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M40 53a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v20.5a3 3 0 0 1-3 3H45a3 3 0 0 1-3-3V53Z"/>
+        <rect x="43.4" y="44.9" width="14" height="5.9" rx="1.8"/>
+      </g>
+      <circle cx="50" cy="33.5" r="4.2" fill="#e9cf9c" stroke="#a9803f" stroke-width="0.6"/>
+      <text x="50" y="35.5" text-anchor="middle" font-family="Georgia, serif" font-size="4.5" fill="#a9803f">$</text>
+    </svg>
+    <p>Cargando tu cuenta 💖💕</p>
+  </div>
+</div>
+
+<div class="wrap" id="mainApp" style="display:none;">
   <header>
     <div class="brand">
       <svg width="42" height="42" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -405,6 +526,10 @@
         <p>Tus cuentas de ahorro, en un solo lugar</p>
       </div>
     </div>
+    <button class="switch-profile-btn" id="switchProfileBtn" onclick="goToProfileScreen()">
+      <span class="switch-profile-avatar" id="switchProfileAvatar"></span>
+      <span id="switchProfileName"></span>
+    </button>
   </header>
 
   <div class="toolbar">
@@ -572,6 +697,72 @@
   </div>
 </div>
 
+<!-- Modal: crear/editar perfil -->
+<div class="overlay" id="profileModal">
+  <div class="modal">
+    <button class="close-x" onclick="closeModal('profileModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2>Nuevo perfil</h2>
+    <label for="profileName">Nombre</label>
+    <input type="text" id="profileName" placeholder="Tu nombre">
+    <p class="error-text" id="profileNameError">Escribe un nombre para el perfil.</p>
+
+    <label>Foto (opcional)</label>
+    <div class="photo-row">
+      <div class="photo-preview" id="profilePhotoPreview">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>
+      </div>
+      <div>
+        <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoSelect(event)">
+        <button type="button" class="file-btn" onclick="document.getElementById('profilePhotoInput').click()">Elegir foto</button>
+        <p class="hint">Si no subes foto, elige un emoji abajo.</p>
+      </div>
+    </div>
+
+    <label>Emoji (si no subes foto)</label>
+    <div class="emoji-row" id="profileEmojiRow">
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('😀', this)">😀</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('😎', this)">😎</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🥰', this)">🥰</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🌸', this)">🌸</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🦄', this)">🦄</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🐱', this)">🐱</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('⭐', this)">⭐</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('💖', this)">💖</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🎀', this)">🎀</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🌙', this)">🌙</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🍀', this)">🍀</button>
+      <button type="button" class="emoji-swatch" onclick="selectProfileEmoji('🐶', this)">🐶</button>
+    </div>
+
+    <label for="profilePassword">Contraseña (opcional)</label>
+    <input type="password" id="profilePassword" placeholder="Déjalo vacío para no usar contraseña">
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('profileModal')">Cancelar</button>
+      <button class="btn-primary" onclick="submitProfileModal()">Crear perfil</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: pedir contraseña -->
+<div class="overlay" id="passwordGateModal">
+  <div class="modal" style="max-width:380px;">
+    <button class="close-x" onclick="closeModal('passwordGateModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2 id="passwordGateTitle">Contraseña</h2>
+    <label for="passwordGateInput">Ingresa tu contraseña</label>
+    <input type="password" id="passwordGateInput" placeholder="••••••" onkeydown="if(event.key==='Enter') submitPasswordGate()">
+    <p class="error-text" id="passwordGateError">Contraseña incorrecta, intenta de nuevo.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('passwordGateModal')">Cancelar</button>
+      <button class="btn-primary" onclick="submitPasswordGate()">Entrar</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: confirmación -->
 <div class="overlay" id="confirmModal">
   <div class="modal" style="max-width:380px;">
@@ -626,8 +817,19 @@ let accountModalMode = 'create';
 let editingAccountId = null;
 let editingMoveId = null;
 
-const STORAGE_KEY = 'cuentas';
+let profiles = [];
+let currentProfileId = null;
+let pendingProfilePhoto = null;
+let pendingProfileEmoji = null;
+let editProfilesMode = false;
+let pendingPasswordProfileId = null;
+
+const PROFILES_KEY = 'perfiles';
 const THEME_KEY = 'tema';
+
+function accountsKey(){
+  return 'cuentas:' + currentProfileId;
+}
 
 async function storageGet(key){
   if(window.storage){
@@ -648,6 +850,184 @@ async function storageSet(key, value){
     return {value};
   }catch(e){ return null; }
 }
+
+/* ---------- Perfiles ---------- */
+
+async function loadProfiles(){
+  try{
+    const res = await storageGet(PROFILES_KEY);
+    profiles = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    profiles = [];
+  }
+
+  if(profiles.length === 0){
+    // Migración: si había datos guardados antes de que existieran los perfiles, se crea un perfil por defecto
+    const legacy = await storageGet('cuentas');
+    const defaultProfile = {id: uid(), name: 'Yo', photo: null, emoji: '💖', password: null};
+    profiles = [defaultProfile];
+    await saveProfiles();
+    if(legacy && legacy.value){
+      await storageSet('cuentas:' + defaultProfile.id, legacy.value);
+    }
+  }
+
+  renderProfileGrid();
+}
+
+async function saveProfiles(){
+  try{
+    await storageSet(PROFILES_KEY, JSON.stringify(profiles));
+  }catch(e){}
+}
+
+function profileAvatarHtml(p){
+  if(p.photo) return `<img src="${p.photo}" alt="">`;
+  if(p.emoji) return p.emoji;
+  return PERSON_ICON;
+}
+
+function renderProfileGrid(){
+  const grid = document.getElementById('profileGrid');
+  grid.innerHTML = profiles.map(p => `
+    <div class="profile-item ${editProfilesMode ? 'edit-mode' : ''}" onclick="${editProfilesMode ? '' : `selectProfile('${p.id}')`}">
+      <button class="profile-remove" onclick="event.stopPropagation(); removeProfile('${p.id}')" aria-label="Eliminar perfil">✕</button>
+      <div class="profile-avatar">${profileAvatarHtml(p)}</div>
+      <div class="profile-name">${escapeHtml(p.name)}</div>
+      ${p.password ? '<span class="profile-lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>' : ''}
+    </div>
+  `).join('') + `
+    <div class="profile-add" onclick="openNewProfileModal()">
+      <div class="profile-add-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
+      <div class="profile-name">Crear perfil</div>
+    </div>`;
+}
+
+function toggleEditProfiles(){
+  editProfilesMode = !editProfilesMode;
+  document.getElementById('editProfilesLink').textContent = editProfilesMode ? 'Listo' : 'Editar perfiles';
+  renderProfileGrid();
+}
+
+function removeProfile(id){
+  showConfirm('¿Eliminar este perfil y todas sus cuentas de ahorro?', async ()=>{
+    profiles = profiles.filter(p=>p.id !== id);
+    await saveProfiles();
+    try{
+      if(window.storage){ /* no delete API needed for localStorage fallback path below */ }
+      localStorage.removeItem('cuentas:' + id);
+    }catch(e){}
+    renderProfileGrid();
+    showToast('Perfil eliminado');
+  }, {confirmLabel:'Eliminar', danger:true});
+}
+
+function openNewProfileModal(){
+  document.getElementById('profileName').value = '';
+  document.getElementById('profilePassword').value = '';
+  document.getElementById('profileNameError').style.display = 'none';
+  document.getElementById('profilePhotoInput').value = '';
+  pendingProfilePhoto = null;
+  pendingProfileEmoji = null;
+  document.getElementById('profilePhotoPreview').innerHTML = PERSON_ICON;
+  document.querySelectorAll('#profileEmojiRow .emoji-swatch').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('profileModal').classList.add('open');
+}
+
+function handleProfilePhotoSelect(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    pendingProfilePhoto = e.target.result;
+    document.getElementById('profilePhotoPreview').innerHTML = `<img src="${pendingProfilePhoto}" alt="">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function selectProfileEmoji(emoji, el){
+  pendingProfileEmoji = (pendingProfileEmoji === emoji) ? null : emoji;
+  document.querySelectorAll('#profileEmojiRow .emoji-swatch').forEach(b=>b.classList.remove('selected'));
+  if(pendingProfileEmoji) el.classList.add('selected');
+}
+
+async function submitProfileModal(){
+  const name = document.getElementById('profileName').value.trim();
+  const password = document.getElementById('profilePassword').value;
+  if(!name){
+    document.getElementById('profileNameError').style.display = 'block';
+    return;
+  }
+  document.getElementById('profileNameError').style.display = 'none';
+  profiles.push({
+    id: uid(),
+    name,
+    photo: pendingProfilePhoto,
+    emoji: pendingProfilePhoto ? null : (pendingProfileEmoji || '💖'),
+    password: password ? password : null
+  });
+  await saveProfiles();
+  renderProfileGrid();
+  closeModal('profileModal');
+  showToast('Perfil creado');
+}
+
+function selectProfile(id){
+  const p = profiles.find(x=>x.id===id);
+  if(!p) return;
+  if(p.password){
+    pendingPasswordProfileId = id;
+    document.getElementById('passwordGateTitle').textContent = 'Hola, ' + p.name;
+    document.getElementById('passwordGateInput').value = '';
+    document.getElementById('passwordGateError').style.display = 'none';
+    document.getElementById('passwordGateModal').classList.add('open');
+    setTimeout(()=> document.getElementById('passwordGateInput').focus(), 100);
+  }else{
+    enterProfile(id);
+  }
+}
+
+function submitPasswordGate(){
+  const p = profiles.find(x=>x.id===pendingPasswordProfileId);
+  if(!p) return;
+  const entered = document.getElementById('passwordGateInput').value;
+  if(entered === p.password){
+    closeModal('passwordGateModal');
+    enterProfile(p.id);
+  }else{
+    document.getElementById('passwordGateError').style.display = 'block';
+  }
+}
+
+async function enterProfile(id){
+  currentProfileId = id;
+  const p = profiles.find(x=>x.id===id);
+  document.getElementById('profileScreen').classList.add('hidden');
+  document.getElementById('loadingScreen').classList.remove('hidden');
+
+  document.getElementById('switchProfileAvatar').innerHTML = profileAvatarHtml(p);
+  document.getElementById('switchProfileName').textContent = p.name;
+
+  await loadAccounts();
+
+  setTimeout(()=>{
+    document.getElementById('loadingScreen').classList.add('hidden');
+    document.getElementById('mainApp').style.display = '';
+  }, 1000);
+}
+
+function goToProfileScreen(){
+  currentProfileId = null;
+  editProfilesMode = false;
+  document.getElementById('editProfilesLink').textContent = 'Editar perfiles';
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('loadingScreen').classList.add('hidden');
+  renderProfileGrid();
+  document.getElementById('profileScreen').classList.remove('hidden');
+}
+
 
 const PERSON_ICON = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>';
 const REPEAT_ICON = '<svg class="repeat-badge" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
@@ -820,7 +1200,7 @@ function sparklineSVG(values, height, color){
 
 async function loadAccounts(){
   try{
-    const res = await storageGet(STORAGE_KEY);
+    const res = await storageGet(accountsKey());
     accounts = res && res.value ? JSON.parse(res.value) : [];
   }catch(e){
     accounts = [];
@@ -856,7 +1236,7 @@ function generateRecurringMovements(){
 
 async function saveAccounts(){
   try{
-    await storageSet(STORAGE_KEY, JSON.stringify(accounts));
+    await storageSet(accountsKey(), JSON.stringify(accounts));
   }catch(e){
     console.error('No se pudo guardar', e);
   }
@@ -1384,6 +1764,7 @@ async function deleteAccount(){
 }
 
 let deferredInstallPrompt = null;
+let installedToastShown = false;
 
 window.addEventListener('beforeinstallprompt', (e)=>{
   e.preventDefault();
@@ -1392,7 +1773,10 @@ window.addEventListener('beforeinstallprompt', (e)=>{
 
 window.addEventListener('appinstalled', ()=>{
   deferredInstallPrompt = null;
-  showToast('¡Alcancía instalada!');
+  if(!installedToastShown){
+    installedToastShown = true;
+    showToast('¡Alcancía instalada!');
+  }
 });
 
 async function handleInstallClick(){
@@ -1400,7 +1784,6 @@ async function handleInstallClick(){
     deferredInstallPrompt.prompt();
     const choice = await deferredInstallPrompt.userChoice;
     deferredInstallPrompt = null;
-    if(choice && choice.outcome === 'accepted') showToast('¡Alcancía instalada!');
     return;
   }
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -1418,7 +1801,7 @@ async function handleInstallClick(){
 }
 
 loadTheme();
-loadAccounts();
+loadProfiles();
 </script>
 </body>
 </html>
