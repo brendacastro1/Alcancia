@@ -509,7 +509,7 @@
 
 <div class="wrap" id="mainApp" style="display:none;">
   <header>
-    <div class="brand">
+    <div class="brand" onclick="goToProfileScreen()" style="cursor:pointer;" role="button" aria-label="Volver a perfiles">
       <svg width="42" height="42" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="48" fill="#faf1ee"/>
         <circle cx="50" cy="50" r="45.6" fill="none" stroke="#c9a15a" stroke-width="1"/>
@@ -526,7 +526,7 @@
         <p>Tus cuentas de ahorro, en un solo lugar</p>
       </div>
     </div>
-    <button class="switch-profile-btn" id="switchProfileBtn" onclick="goToProfileScreen()">
+    <button class="switch-profile-btn" id="switchProfileBtn" onclick="openEditProfileModal(currentProfileId)" aria-label="Editar mi perfil">
       <span class="switch-profile-avatar" id="switchProfileAvatar"></span>
       <span id="switchProfileName"></span>
     </button>
@@ -703,7 +703,7 @@
     <button class="close-x" onclick="closeModal('profileModal')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
     </button>
-    <h2>Nuevo perfil</h2>
+    <h2 id="profileModalTitle">Nuevo perfil</h2>
     <label for="profileName">Nombre</label>
     <input type="text" id="profileName" placeholder="Tu nombre">
     <p class="error-text" id="profileNameError">Escribe un nombre para el perfil.</p>
@@ -741,8 +741,9 @@
 
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal('profileModal')">Cancelar</button>
-      <button class="btn-primary" onclick="submitProfileModal()">Crear perfil</button>
+      <button class="btn-primary" id="profileModalSubmit" onclick="submitProfileModal()">Crear perfil</button>
     </div>
+    <button class="delete-link" id="deleteProfileLink" style="display:none;" onclick="deleteProfileFromModal()">Eliminar este perfil</button>
   </div>
 </div>
 
@@ -823,6 +824,7 @@ let pendingProfilePhoto = null;
 let pendingProfileEmoji = null;
 let editProfilesMode = false;
 let pendingPasswordProfileId = null;
+let editingProfileId = null;
 
 const PROFILES_KEY = 'perfiles';
 const THEME_KEY = 'tema';
@@ -890,7 +892,7 @@ function profileAvatarHtml(p){
 function renderProfileGrid(){
   const grid = document.getElementById('profileGrid');
   grid.innerHTML = profiles.map(p => `
-    <div class="profile-item ${editProfilesMode ? 'edit-mode' : ''}" onclick="${editProfilesMode ? '' : `selectProfile('${p.id}')`}">
+    <div class="profile-item ${editProfilesMode ? 'edit-mode' : ''}" onclick="${editProfilesMode ? `openEditProfileModal('${p.id}')` : `selectProfile('${p.id}')`}">
       <button class="profile-remove" onclick="event.stopPropagation(); removeProfile('${p.id}')" aria-label="Eliminar perfil">✕</button>
       <div class="profile-avatar">${profileAvatarHtml(p)}</div>
       <div class="profile-name">${escapeHtml(p.name)}</div>
@@ -913,18 +915,27 @@ function toggleEditProfiles(){
 
 function removeProfile(id){
   showConfirm('¿Eliminar este perfil y todas sus cuentas de ahorro?', async ()=>{
+    const wasCurrent = (id === currentProfileId);
     profiles = profiles.filter(p=>p.id !== id);
     await saveProfiles();
     try{
       if(window.storage){ /* no delete API needed for localStorage fallback path below */ }
       localStorage.removeItem('cuentas:' + id);
     }catch(e){}
-    renderProfileGrid();
+    if(wasCurrent){
+      goToProfileScreen();
+    }else{
+      renderProfileGrid();
+    }
     showToast('Perfil eliminado');
   }, {confirmLabel:'Eliminar', danger:true});
 }
 
 function openNewProfileModal(){
+  editingProfileId = null;
+  document.getElementById('profileModalTitle').textContent = 'Nuevo perfil';
+  document.getElementById('profileModalSubmit').textContent = 'Crear perfil';
+  document.getElementById('deleteProfileLink').style.display = 'none';
   document.getElementById('profileName').value = '';
   document.getElementById('profilePassword').value = '';
   document.getElementById('profileNameError').style.display = 'none';
@@ -934,6 +945,33 @@ function openNewProfileModal(){
   document.getElementById('profilePhotoPreview').innerHTML = PERSON_ICON;
   document.querySelectorAll('#profileEmojiRow .emoji-swatch').forEach(b=>b.classList.remove('selected'));
   document.getElementById('profileModal').classList.add('open');
+}
+
+function openEditProfileModal(id){
+  const p = profiles.find(x=>x.id===id);
+  if(!p) return;
+  editingProfileId = id;
+  document.getElementById('profileModalTitle').textContent = 'Editar perfil';
+  document.getElementById('profileModalSubmit').textContent = 'Guardar cambios';
+  document.getElementById('deleteProfileLink').style.display = 'block';
+  document.getElementById('profileName').value = p.name;
+  document.getElementById('profilePassword').value = p.password || '';
+  document.getElementById('profileNameError').style.display = 'none';
+  document.getElementById('profilePhotoInput').value = '';
+  pendingProfilePhoto = p.photo || null;
+  pendingProfileEmoji = p.photo ? null : (p.emoji || null);
+  document.getElementById('profilePhotoPreview').innerHTML = p.photo ? `<img src="${p.photo}" alt="">` : (p.emoji || PERSON_ICON);
+  document.querySelectorAll('#profileEmojiRow .emoji-swatch').forEach(b=>{
+    b.classList.toggle('selected', !p.photo && b.textContent === p.emoji);
+  });
+  document.getElementById('profileModal').classList.add('open');
+}
+
+function deleteProfileFromModal(){
+  if(!editingProfileId) return;
+  const id = editingProfileId;
+  closeModal('profileModal');
+  removeProfile(id);
 }
 
 function handleProfilePhotoSelect(event){
@@ -961,17 +999,36 @@ async function submitProfileModal(){
     return;
   }
   document.getElementById('profileNameError').style.display = 'none';
-  profiles.push({
-    id: uid(),
-    name,
-    photo: pendingProfilePhoto,
-    emoji: pendingProfilePhoto ? null : (pendingProfileEmoji || '💖'),
-    password: password ? password : null
-  });
-  await saveProfiles();
-  renderProfileGrid();
-  closeModal('profileModal');
-  showToast('Perfil creado');
+
+  if(editingProfileId){
+    const p = profiles.find(x=>x.id===editingProfileId);
+    if(p){
+      p.name = name;
+      p.photo = pendingProfilePhoto;
+      p.emoji = pendingProfilePhoto ? null : (pendingProfileEmoji || '💖');
+      p.password = password ? password : null;
+    }
+    await saveProfiles();
+    renderProfileGrid();
+    if(p && p.id === currentProfileId){
+      document.getElementById('switchProfileAvatar').innerHTML = profileAvatarHtml(p);
+      document.getElementById('switchProfileName').textContent = p.name;
+    }
+    closeModal('profileModal');
+    showToast('Perfil actualizado');
+  }else{
+    profiles.push({
+      id: uid(),
+      name,
+      photo: pendingProfilePhoto,
+      emoji: pendingProfilePhoto ? null : (pendingProfileEmoji || '💖'),
+      password: password ? password : null
+    });
+    await saveProfiles();
+    renderProfileGrid();
+    closeModal('profileModal');
+    showToast('Perfil creado');
+  }
 }
 
 function selectProfile(id){
