@@ -355,6 +355,12 @@
   }
   #codeScreen.hidden{display:none;}
   .hidden{display:none;}
+  .field-wrap{position:relative;}
+  .field-wrap input{padding-right:40px !important;}
+  .eye-toggle{
+    position:absolute;right:8px;top:50%;transform:translateY(-50%);
+    background:none;border:none;cursor:pointer;font-size:15px;padding:4px;line-height:1;
+  }
   #codeScreen .edit-profiles-link{display:none;}
   .profile-install-btn{position:absolute;top:24px;left:24px;}
   .profile-wrap{max-width:480px;width:100%;text-align:center;}
@@ -440,6 +446,47 @@
   .color-swatch.selected{border-color:var(--text);}
   .icon-swatch{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);}
   .icon-swatch.selected{background:var(--primary-pale);border-color:var(--primary);color:var(--primary-dark);}
+  .tag-swatch{
+    border:1px solid var(--border);background:#fff;border-radius:999px;
+    padding:6px 12px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;
+  }
+  .tag-swatch.selected{background:var(--primary-pale);border-color:var(--primary);color:var(--primary-dark);}
+  .card-tag{
+    display:inline-block;font-size:11px;font-weight:600;color:var(--primary-dark);
+    background:var(--primary-pale);border-radius:999px;padding:3px 9px;margin-bottom:8px;
+  }
+  .streak-badge{font-size:11px;color:var(--text-secondary);margin-top:4px;}
+  .mood-box{
+    display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--text);
+  }
+  .mood-box .mood-emoji{font-size:20px;}
+  .confetti-float{
+    position:absolute;font-size:18px;pointer-events:none;
+    animation:confettiUp 1.6s ease-out forwards;
+  }
+  @keyframes confettiUp{
+    0%{opacity:1;transform:translateY(0) scale(1);}
+    100%{opacity:0;transform:translateY(-70px) scale(1.2);}
+  }
+  .decor-emoji{position:absolute;font-size:20px;opacity:0.5;animation:decorFloat 3s ease-in-out infinite;}
+  @keyframes decorFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .sound-toggle-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--border);
+  }
+  .switch{position:relative;display:inline-block;width:42px;height:24px;}
+  .switch input{opacity:0;width:0;height:0;}
+  .switch-slider{
+    position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+    background:var(--border);border-radius:999px;transition:0.2s;
+  }
+  .switch-slider::before{
+    position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;
+    background:#fff;border-radius:50%;transition:0.2s;
+  }
+  .switch input:checked + .switch-slider{background:var(--primary);}
+  .switch input:checked + .switch-slider::before{transform:translateX(18px);}
 
   .install-btn{
     background:#fff;
@@ -511,18 +558,34 @@
 
     <div id="codeEnterBox" class="hidden">
       <p>Escribe tu código y tu contraseña</p>
-      <input type="text" id="codeInput" placeholder="Tu código" style="text-align:center;max-width:280px;margin:0 auto 8px;display:block;text-transform:uppercase;" onkeydown="if(event.key==='Enter') submitCode();">
-      <input type="password" id="codeLoginPassword" placeholder="Tu contraseña" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;" onkeydown="if(event.key==='Enter') submitCode();">
+      <div class="field-wrap" style="max-width:280px;margin:0 auto 8px;">
+        <input type="password" id="codeInput" placeholder="Tu código" style="text-align:center;width:100%;" onkeydown="if(event.key==='Enter') submitCode();">
+        <button type="button" class="eye-toggle" onclick="toggleFieldVisibility('codeInput', this)" aria-label="Mostrar u ocultar código">👁️</button>
+      </div>
+      <div class="field-wrap" style="max-width:280px;margin:0 auto 6px;">
+        <input type="password" id="codeLoginPassword" placeholder="Tu contraseña" style="text-align:center;width:100%;" onkeydown="if(event.key==='Enter') submitCode();">
+        <button type="button" class="eye-toggle" onclick="toggleFieldVisibility('codeLoginPassword', this)" aria-label="Mostrar u ocultar contraseña">👁️</button>
+      </div>
       <p class="error-text" id="codeError" style="text-align:center;">Código o contraseña incorrectos.</p>
       <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="submitCode()">Entrar</button>
       <button class="edit-profiles-link" style="display:block;margin:14px auto 0;" onclick="showCodeMode('choice')">Volver</button>
     </div>
 
-    <div id="codeGeneratingBox" class="hidden">
+    <div id="codeGeneratingBox" class="hidden" style="position:relative;">
+      <span class="decor-emoji" style="left:10%;top:-10px;animation-delay:0s;">✨</span>
+      <span class="decor-emoji" style="right:12%;top:0;animation-delay:0.6s;">💫</span>
       <p style="font-family:'Fraunces',serif;font-size:18px;color:var(--primary-dark);">Generando 🤗</p>
     </div>
 
-    <div id="codeResultBox" class="hidden">
+    <div id="codeEnteringBox" class="hidden" style="position:relative;">
+      <span class="decor-emoji" style="left:12%;top:-10px;animation-delay:0.2s;">💖</span>
+      <span class="decor-emoji" style="right:10%;top:0;animation-delay:0.8s;">💕</span>
+      <p style="font-family:'Fraunces',serif;font-size:18px;color:var(--primary-dark);">Entrando 💖💕</p>
+    </div>
+
+    <div id="codeResultBox" class="hidden" style="position:relative;">
+      <span class="decor-emoji" style="left:6%;top:-6px;animation-delay:0.1s;">🎉</span>
+      <span class="decor-emoji" style="right:6%;top:-6px;animation-delay:0.5s;">🥳</span>
       <p style="font-size:28px;margin:0 0 6px;">🥳🎉</p>
       <p>Este es tu código y tu contraseña, que deberás cambiar al ingresar:</p>
       <p style="font-weight:700;font-size:17px;margin:14px 0 4px;">Código: <span id="resultCode"></span></p>
@@ -532,8 +595,14 @@
 
     <div id="codeForceChangeBox" class="hidden">
       <p>Por seguridad, elige una contraseña nueva antes de continuar.</p>
-      <input type="password" id="forceNewPassword" placeholder="Nueva contraseña" style="text-align:center;max-width:280px;margin:0 auto 8px;display:block;">
-      <input type="password" id="forceNewPasswordConfirm" placeholder="Repite la contraseña" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;" onkeydown="if(event.key==='Enter') submitForcePasswordChange();">
+      <div class="field-wrap" style="max-width:280px;margin:0 auto 8px;">
+        <input type="password" id="forceNewPassword" placeholder="Nueva contraseña" style="text-align:center;width:100%;">
+        <button type="button" class="eye-toggle" onclick="toggleFieldVisibility('forceNewPassword', this)" aria-label="Mostrar u ocultar contraseña">👁️</button>
+      </div>
+      <div class="field-wrap" style="max-width:280px;margin:0 auto 6px;">
+        <input type="password" id="forceNewPasswordConfirm" placeholder="Repite la contraseña" style="text-align:center;width:100%;" onkeydown="if(event.key==='Enter') submitForcePasswordChange();">
+        <button type="button" class="eye-toggle" onclick="toggleFieldVisibility('forceNewPasswordConfirm', this)" aria-label="Mostrar u ocultar contraseña">👁️</button>
+      </div>
       <p class="error-text" id="forceChangeError" style="text-align:center;">Escribe la misma contraseña en los dos campos.</p>
       <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="submitForcePasswordChange()">Guardar y continuar</button>
     </div>
@@ -564,7 +633,7 @@
       <circle cx="50" cy="33.5" r="4.2" fill="#e9cf9c" stroke="#a9803f" stroke-width="0.6"/>
       <text x="50" y="35.5" text-anchor="middle" font-family="Georgia, serif" font-size="4.5" fill="#a9803f">$</text>
     </svg>
-    <p>Cargando tu cuenta 💖💕</p>
+    <p id="loadingMessage">Cargando tu cuenta 💖💕</p>
   </div>
 </div>
 
@@ -589,7 +658,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1H3a2 2 0 0 1 0-4h.09a1.7 1.7 0 0 0 1.56-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.56 1Z"/></svg>
           </button>
         </div>
-        <p>Tus cuentas de ahorro, en un solo lugar</p>
+        <p id="brandSubtitle">Tus cuentas de ahorro, en un solo lugar</p>
       </div>
     </div>
   </header>
@@ -659,6 +728,15 @@
       <button type="button" class="icon-swatch" onclick="selectIcon('leaf', this)" aria-label="Naturaleza"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 20C4 12 9 4 20 4c0 11-8 16-16 16Z"/><path d="M5 20c2-6 5-9 10-11"/></svg></button>
     </div>
 
+    <label>Etiqueta (opcional)</label>
+    <div class="swatch-row" id="tagSwatchRow">
+      <button type="button" class="tag-swatch" onclick="selectTag('', this)" data-tag="">Ninguna</button>
+      <button type="button" class="tag-swatch" onclick="selectTag('🎯 Meta', this)" data-tag="🎯 Meta">🎯 Meta</button>
+      <button type="button" class="tag-swatch" onclick="selectTag('🚨 Urgente', this)" data-tag="🚨 Urgente">🚨 Urgente</button>
+      <button type="button" class="tag-swatch" onclick="selectTag('🎁 Sorpresa', this)" data-tag="🎁 Sorpresa">🎁 Sorpresa</button>
+      <button type="button" class="tag-swatch" onclick="selectTag('🌱 Creciendo', this)" data-tag="🌱 Creciendo">🌱 Creciendo</button>
+    </div>
+
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal('accountModal')">Cancelar</button>
       <button class="btn-primary" id="accountModalSubmit" onclick="submitAccountModal()">Crear cuenta</button>
@@ -692,6 +770,8 @@
     </div>
 
     <div class="detail-sparkline" id="detailSparkline"></div>
+
+    <div id="moodArea"></div>
 
     <div class="stats-label">Histórico</div>
     <div class="stats-row">
@@ -895,6 +975,13 @@
       <button type="button" class="theme-swatch" id="theme-terracota" style="background:#c1622f" onclick="selectTheme('terracota')" aria-label="Terracota"></button>
       <button type="button" class="theme-swatch" id="theme-pizarra" style="background:#6d7f94" onclick="selectTheme('pizarra')" aria-label="Pizarra"></button>
     </div>
+    <div class="sound-toggle-row">
+      <span>🔊 Sonidos</span>
+      <label class="switch">
+        <input type="checkbox" id="soundToggle" onchange="toggleSounds(this.checked)">
+        <span class="switch-slider"></span>
+      </label>
+    </div>
   </div>
 </div>
 
@@ -1002,17 +1089,48 @@ async function generateUniqueCode(){
   return candidate;
 }
 
+function toggleFieldVisibility(id, btn){
+  const el = document.getElementById(id);
+  if(el.type === 'password'){
+    el.type = 'text';
+    btn.textContent = '🙈';
+  }else{
+    el.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
+const REMEMBER_KEY = 'acceso_recordado';
+
+async function rememberLogin(code, password){
+  try{
+    await storageSet(REMEMBER_KEY, JSON.stringify({code, password}));
+  }catch(e){}
+}
+
+async function loadRememberedLogin(){
+  try{
+    const res = await storageGet(REMEMBER_KEY);
+    return res && res.value ? JSON.parse(res.value) : null;
+  }catch(e){
+    return null;
+  }
+}
+
 function showCodeMode(mode){
   document.getElementById('codeChoice').classList.toggle('hidden', mode !== 'choice');
   document.getElementById('codeEnterBox').classList.toggle('hidden', mode !== 'enter');
   document.getElementById('codeGeneratingBox').classList.add('hidden');
+  document.getElementById('codeEnteringBox').classList.add('hidden');
   document.getElementById('codeResultBox').classList.add('hidden');
   document.getElementById('codeForceChangeBox').classList.add('hidden');
   if(mode === 'enter'){
-    document.getElementById('codeInput').value = '';
-    document.getElementById('codeLoginPassword').value = '';
     document.getElementById('codeError').style.display = 'none';
-    setTimeout(()=> document.getElementById('codeInput').focus(), 100);
+    loadRememberedLogin().then(saved=>{
+      document.getElementById('codeInput').value = saved ? saved.code : '';
+      document.getElementById('codeLoginPassword').value = saved ? saved.password : '';
+      setTimeout(()=> document.getElementById(saved ? 'codeLoginPassword' : 'codeInput').focus(), 100);
+    });
   }
 }
 
@@ -1066,18 +1184,24 @@ async function submitCode(){
   }
   document.getElementById('codeError').style.display = 'none';
   currentCode = val;
+  await rememberLogin(val, pass);
 
-  if(meta.mustChange){
-    document.getElementById('codeEnterBox').classList.add('hidden');
-    document.getElementById('forceNewPassword').value = '';
-    document.getElementById('forceNewPasswordConfirm').value = '';
-    document.getElementById('forceChangeError').style.display = 'none';
-    document.getElementById('codeForceChangeBox').classList.remove('hidden');
-  }else{
-    document.getElementById('codeScreen').classList.add('hidden');
-    document.getElementById('profileScreen').classList.remove('hidden');
-    loadProfiles();
-  }
+  document.getElementById('codeEnterBox').classList.add('hidden');
+  document.getElementById('codeEnteringBox').classList.remove('hidden');
+
+  setTimeout(()=>{
+    document.getElementById('codeEnteringBox').classList.add('hidden');
+    if(meta.mustChange){
+      document.getElementById('forceNewPassword').value = '';
+      document.getElementById('forceNewPasswordConfirm').value = '';
+      document.getElementById('forceChangeError').style.display = 'none';
+      document.getElementById('codeForceChangeBox').classList.remove('hidden');
+    }else{
+      document.getElementById('codeScreen').classList.add('hidden');
+      document.getElementById('profileScreen').classList.remove('hidden');
+      loadProfiles();
+    }
+  }, 1000);
 }
 
 async function submitForcePasswordChange(){
@@ -1089,6 +1213,7 @@ async function submitForcePasswordChange(){
   }
   document.getElementById('forceChangeError').style.display = 'none';
   await setCodeMeta(currentCode, {password: p1, mustChange: false});
+  await rememberLogin(currentCode, p1);
   document.getElementById('codeScreen').classList.add('hidden');
   document.getElementById('profileScreen').classList.remove('hidden');
   showToast('Contraseña actualizada');
@@ -1244,6 +1369,7 @@ async function submitProfileModal(){
     if(p && p.id === currentProfileId){
       document.getElementById('switchProfileAvatar').innerHTML = profileAvatarHtml(p);
       document.getElementById('switchProfileName').textContent = p.name;
+      document.getElementById('brandSubtitle').textContent = greetingText(p.name);
     }
     closeModal('profileModal');
     showToast('Perfil actualizado');
@@ -1289,14 +1415,34 @@ function submitPasswordGate(){
   }
 }
 
+const LOADING_MESSAGES = [
+  'Cargando tu cuenta 💖💕',
+  'Contando tus monedas... 🪙',
+  'Casi listo, mi amor 💕',
+  'Preparando tu alcancía ✨',
+  'Acomodando tus ahorros 🌸',
+  'Un momentito más... 💗'
+];
+
+function greetingText(name){
+  const h = new Date().getHours();
+  let g, emoji;
+  if(h < 12){ g = 'Buenos días'; emoji = '☀️'; }
+  else if(h < 19){ g = 'Buenas tardes'; emoji = '🌤️'; }
+  else { g = 'Buenas noches'; emoji = '🌙'; }
+  return `${g}, ${name} ${emoji}`;
+}
+
 async function enterProfile(id){
   currentProfileId = id;
   const p = profiles.find(x=>x.id===id);
   document.getElementById('profileScreen').classList.add('hidden');
+  document.getElementById('loadingMessage').textContent = LOADING_MESSAGES[Math.floor(Math.random()*LOADING_MESSAGES.length)];
   document.getElementById('loadingScreen').classList.remove('hidden');
 
   document.getElementById('switchProfileAvatar').innerHTML = profileAvatarHtml(p);
   document.getElementById('switchProfileName').textContent = p.name;
+  document.getElementById('brandSubtitle').textContent = greetingText(p.name);
 
   await loadAccounts();
 
@@ -1307,11 +1453,15 @@ async function enterProfile(id){
 }
 
 function goToProfileScreen(){
+  const leavingProfile = profiles.find(x=>x.id===currentProfileId);
   currentProfileId = null;
   document.getElementById('mainApp').style.display = 'none';
   document.getElementById('loadingScreen').classList.add('hidden');
   renderProfileGrid();
   document.getElementById('profileScreen').classList.remove('hidden');
+  if(leavingProfile){
+    showToast(`¡Hasta luego, ${leavingProfile.name}! 👋`);
+  }
 }
 
 
@@ -1377,6 +1527,8 @@ const BACKGROUNDS = {
 
 let pendingColor = null;
 let pendingIcon = null;
+let pendingTag = '';
+let lastCelebratedAccountId = null;
 
 function selectColor(hex, el){
   pendingColor = (pendingColor === hex) ? null : hex;
@@ -1436,7 +1588,66 @@ async function loadTheme(){
 }
 
 function openThemeModal(){
+  document.getElementById('soundToggle').checked = soundsEnabled;
   document.getElementById('themeModal').classList.add('open');
+}
+
+const SOUND_KEY = 'sonidos_activos';
+let soundsEnabled = true;
+
+async function loadSounds(){
+  try{
+    const res = await storageGet(SOUND_KEY);
+    soundsEnabled = res && res.value !== null ? res.value === 'true' : true;
+  }catch(e){
+    soundsEnabled = true;
+  }
+}
+
+async function toggleSounds(checked){
+  soundsEnabled = checked;
+  try{ await storageSet(SOUND_KEY, String(checked)); }catch(e){}
+  if(checked) playCoinSound();
+}
+
+function playCoinSound(){
+  if(!soundsEnabled) return;
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [880, 1318.5];
+    notes.forEach((freq, i)=>{
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.001, ctx.currentTime + i*0.09);
+      gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + i*0.09 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i*0.09 + 0.3);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + i*0.09);
+      osc.stop(ctx.currentTime + i*0.09 + 0.32);
+    });
+  }catch(e){}
+}
+
+function playExpenseSound(){
+  if(!soundsEnabled) return;
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(700, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(280, ctx.currentTime + 0.28);
+    gain.gain.setValueAtTime(0.001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.16, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.34);
+  }catch(e){}
 }
 
 
@@ -1507,7 +1718,24 @@ function monthlySeries(acc){
   return months.map(mo=>{ running += deltaByMonth[mo]; return running; });
 }
 
+function streakMonths(acc){
+  const monthsWithIncome = new Set();
+  acc.movements.forEach(m=>{
+    if(m.type === 'ingreso') monthsWithIncome.add(m.date.slice(0,7));
+  });
+  let streak = 0;
+  let [y,m] = todayStr().slice(0,7).split('-').map(Number);
+  while(true){
+    const key = `${y}-${String(m).padStart(2,'0')}`;
+    if(!monthsWithIncome.has(key)) break;
+    streak++;
+    m--; if(m < 1){ m = 12; y--; }
+  }
+  return streak;
+}
+
 function sparklineSVG(values, height, color){
+
   if(!values || values.length < 2) return '';
   const min = Math.min(...values), max = Math.max(...values);
   const range = (max - min) || 1;
@@ -1570,6 +1798,21 @@ async function saveAccounts(){
 
 let dragSourceId = null;
 let confirmCallback = null;
+
+function spawnConfetti(container){
+  container.style.position = 'relative';
+  const emojis = ['🎉','💖','✨','🎊','💕'];
+  for(let i=0;i<8;i++){
+    const span = document.createElement('span');
+    span.className = 'confetti-float';
+    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = (Math.random()*90) + '%';
+    span.style.top = '10px';
+    span.style.animationDelay = (Math.random()*0.4) + 's';
+    container.appendChild(span);
+    setTimeout(()=> span.remove(), 2000);
+  }
+}
 
 function showToast(message){
   const container = document.getElementById('toastContainer');
@@ -1642,9 +1885,11 @@ function render(){
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8l-5.9 2.6 1.3-6.5-4.9-4.5 6.6-.8L12 2.5Z"/></svg>
           </button>
           <div class="card-photo" style="${avatarStyle(acc)}">${avatarContent(acc)}</div>
+          ${acc.tag ? `<span class="card-tag">${escapeHtml(acc.tag)}</span>` : ''}
           <p class="card-name">${escapeHtml(acc.name)}</p>
           <div class="card-balance ${bal<0?'neg':''}">${fmt(bal)}</div>
           <div class="card-count">${acc.movements.length} movimiento${acc.movements.length===1?'':'s'}</div>
+          ${streakMonths(acc) >= 2 ? `<div class="streak-badge">🔥 ${streakMonths(acc)} meses seguidos ahorrando</div>` : ''}
           ${sparkHtml}
           ${goalHtml}
         </div>`;
@@ -1772,7 +2017,9 @@ function openNewAccountModal(){
   pendingPhotoData = null;
   pendingColor = null;
   pendingIcon = null;
+  pendingTag = '';
   document.querySelectorAll('.color-swatch, .icon-swatch').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('#tagSwatchRow .tag-swatch').forEach(b=>b.classList.toggle('selected', b.dataset.tag===''));
   document.getElementById('accPhotoPreview').innerHTML = PERSON_ICON;
   document.getElementById('accountModal').classList.add('open');
 }
@@ -1792,6 +2039,7 @@ function openEditAccountModal(){
   document.getElementById('accPhotoPreview').innerHTML = acc.photo ? `<img src="${acc.photo}" alt="">` : PERSON_ICON;
   pendingColor = acc.color || null;
   pendingIcon = acc.icon || null;
+  pendingTag = acc.tag || '';
   document.querySelectorAll('#colorSwatchRow .color-swatch').forEach(b=>{
     b.classList.toggle('selected', !!pendingColor && b.dataset.color === pendingColor);
   });
@@ -1801,7 +2049,14 @@ function openEditAccountModal(){
     const btns = document.querySelectorAll('#iconSwatchRow .icon-swatch');
     if(idx >= 0 && btns[idx]) btns[idx].classList.add('selected');
   }
+  document.querySelectorAll('#tagSwatchRow .tag-swatch').forEach(b=>b.classList.toggle('selected', b.dataset.tag===pendingTag));
   document.getElementById('accountModal').classList.add('open');
+}
+
+function selectTag(tag, el){
+  pendingTag = tag;
+  document.querySelectorAll('#tagSwatchRow .tag-swatch').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
 function closeModal(id){
@@ -1837,6 +2092,7 @@ async function submitAccountModal(){
       acc.photo = pendingPhotoData;
       acc.color = pendingColor;
       acc.icon = pendingIcon;
+      acc.tag = pendingTag || null;
     }
   }else{
     accounts.push({
@@ -1846,6 +2102,7 @@ async function submitAccountModal(){
       photo: pendingPhotoData,
       color: pendingColor,
       icon: pendingIcon,
+      tag: pendingTag || null,
       favorite: false,
       archived: false,
       recurringTemplates: [],
@@ -1902,8 +2159,23 @@ function renderDetail(){
     goalArea.innerHTML = `
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
       <div class="goal-label">${Math.round(pct)}% de tu meta de ${fmt(acc.goal)}</div>`;
+    if(pct >= 100 && lastCelebratedAccountId !== acc.id){
+      lastCelebratedAccountId = acc.id;
+      spawnConfetti(goalArea);
+      showToast('¡Meta cumplida! 🎉');
+    }
   }else{
     goalArea.innerHTML = '';
+  }
+
+  const totals30forMood = last30Totals(acc);
+  const moodArea = document.getElementById('moodArea');
+  if(acc.movements.length === 0){
+    moodArea.innerHTML = '';
+  }else if(totals30forMood.income >= totals30forMood.expense){
+    moodArea.innerHTML = `<div class="mood-box"><span class="mood-emoji">🥹</span> ¡Vas súper bien este mes! 🌟</div>`;
+  }else{
+    moodArea.innerHTML = `<div class="mood-box"><span class="mood-emoji">🥺</span> Este mes gastaste más de lo que entró.</div>`;
   }
 
   const totals = totalsOf(acc);
@@ -2060,10 +2332,14 @@ async function addMovement(){
 
   await saveAccounts();
   const wasEdit = !!editingMoveId;
+  const wasIncome = currentMoveType === 'ingreso';
   cancelEditMovement();
   renderDetail();
   render();
   showToast(wasEdit ? 'Movimiento actualizado' : 'Movimiento agregado');
+  if(!wasEdit){
+    if(wasIncome) playCoinSound(); else playExpenseSound();
+  }
 }
 
 async function removeMovement(moveId){
@@ -2133,6 +2409,7 @@ async function handleInstallClick(){
 }
 
 loadTheme();
+loadSounds();
 </script>
 </body>
 </html>
