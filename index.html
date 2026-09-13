@@ -485,8 +485,12 @@
 
 <!-- Pantalla de código de acceso -->
 <div id="codeScreen">
+  <button class="install-btn profile-install-btn" id="installBtn" onclick="handleInstallClick()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>
+    Instalar
+  </button>
   <div class="profile-wrap">
-    <svg width="56" height="56" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 14px;display:block;">
+    <svg width="56" height="56" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 14px;display:block;" id="codeLogoSvg">
       <circle cx="50" cy="50" r="48" fill="#faf1ee"/>
       <circle cx="50" cy="50" r="45.6" fill="none" stroke="#c9a15a" stroke-width="1"/>
       <circle cx="50" cy="50" r="38.3" fill="#b5486b"/>
@@ -502,33 +506,42 @@
     <div id="codeChoice">
       <p>¿Ya tienes un código o es tu primera vez?</p>
       <button class="btn-primary" style="max-width:280px;margin:0 auto 10px;display:block;padding:12px 24px;" onclick="showCodeMode('enter')">🔑 Ya tengo un código</button>
-      <button class="btn-secondary" style="max-width:280px;margin:0 auto;display:block;padding:12px 24px;" onclick="showCodeMode('create')">✨ Crear código</button>
+      <button class="btn-secondary" style="max-width:280px;margin:0 auto;display:block;padding:12px 24px;" onclick="startGenerateCode()">✨ Generar código</button>
     </div>
 
     <div id="codeEnterBox" class="hidden">
-      <p>Escribe tu código para ver tus perfiles</p>
-      <input type="text" id="codeInput" placeholder="Tu código" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;" onkeydown="if(event.key==='Enter') submitCode();">
-      <p class="error-text" id="codeError" style="text-align:center;">Escribe un código para continuar.</p>
+      <p>Escribe tu código y tu contraseña</p>
+      <input type="text" id="codeInput" placeholder="Tu código" style="text-align:center;max-width:280px;margin:0 auto 8px;display:block;text-transform:uppercase;" onkeydown="if(event.key==='Enter') submitCode();">
+      <input type="password" id="codeLoginPassword" placeholder="Tu contraseña" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;" onkeydown="if(event.key==='Enter') submitCode();">
+      <p class="error-text" id="codeError" style="text-align:center;">Código o contraseña incorrectos.</p>
       <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="submitCode()">Entrar</button>
       <button class="edit-profiles-link" style="display:block;margin:14px auto 0;" onclick="showCodeMode('choice')">Volver</button>
     </div>
 
-    <div id="codeCreateBox" class="hidden">
-      <p>Inventa un código nuevo. Guárdalo bien: es lo único que se usa para volver a ver estos perfiles.</p>
-      <input type="text" id="newCodeInput" placeholder="Crea un código" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;" onkeydown="if(event.key==='Enter') submitNewCode();">
-      <p class="error-text" id="newCodeError" style="text-align:center;">Escribe un código para crear tu espacio.</p>
-      <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="submitNewCode()">Crear</button>
-      <button class="edit-profiles-link" style="display:block;margin:14px auto 0;" onclick="showCodeMode('choice')">Volver</button>
+    <div id="codeGeneratingBox" class="hidden">
+      <p style="font-family:'Fraunces',serif;font-size:18px;color:var(--primary-dark);">Generando 🤗</p>
+    </div>
+
+    <div id="codeResultBox" class="hidden">
+      <p style="font-size:28px;margin:0 0 6px;">🥳🎉</p>
+      <p>Este es tu código y tu contraseña, que deberás cambiar al ingresar:</p>
+      <p style="font-weight:700;font-size:17px;margin:14px 0 4px;">Código: <span id="resultCode"></span></p>
+      <p style="font-weight:700;font-size:17px;margin:0 0 16px;">Contraseña: <span id="resultPassword"></span></p>
+      <button class="btn-primary" style="max-width:280px;margin:0 auto;display:block;padding:12px 24px;" onclick="proceedFromCodeResult()">Continuar</button>
+    </div>
+
+    <div id="codeForceChangeBox" class="hidden">
+      <p>Por seguridad, elige una contraseña nueva antes de continuar.</p>
+      <input type="password" id="forceNewPassword" placeholder="Nueva contraseña" style="text-align:center;max-width:280px;margin:0 auto 8px;display:block;">
+      <input type="password" id="forceNewPasswordConfirm" placeholder="Repite la contraseña" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;" onkeydown="if(event.key==='Enter') submitForcePasswordChange();">
+      <p class="error-text" id="forceChangeError" style="text-align:center;">Escribe la misma contraseña en los dos campos.</p>
+      <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="submitForcePasswordChange()">Guardar y continuar</button>
     </div>
   </div>
 </div>
 
 <!-- Pantalla de perfiles -->
 <div id="profileScreen" class="hidden">
-  <button class="install-btn profile-install-btn" id="installBtn" onclick="handleInstallClick()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>
-    Instalar
-  </button>
   <div class="profile-wrap">
     <h1>¿Quién eres?</h1>
     <p>Elige tu perfil para ver tus cuentas</p>
@@ -579,10 +592,6 @@
         <p>Tus cuentas de ahorro, en un solo lugar</p>
       </div>
     </div>
-    <button class="install-btn" id="installBtnMain" onclick="handleInstallClick()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>
-      Instalar
-    </button>
   </header>
 
   <div class="toolbar" style="justify-content:flex-start;">
@@ -942,44 +951,147 @@ async function storageSet(key, value){
 
 /* ---------- Código de acceso ---------- */
 
-function showCodeMode(mode){
-  document.getElementById('codeChoice').classList.toggle('hidden', mode !== 'choice');
-  document.getElementById('codeEnterBox').classList.toggle('hidden', mode !== 'enter');
-  document.getElementById('codeCreateBox').classList.toggle('hidden', mode !== 'create');
-  if(mode === 'enter'){
-    document.getElementById('codeInput').value = '';
-    document.getElementById('codeError').style.display = 'none';
-    setTimeout(()=> document.getElementById('codeInput').focus(), 100);
-  }else if(mode === 'create'){
-    document.getElementById('newCodeInput').value = '';
-    document.getElementById('newCodeError').style.display = 'none';
-    setTimeout(()=> document.getElementById('newCodeInput').focus(), 100);
+const CODE_REGISTRY_KEY = 'codigos_registrados';
+const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // sin O/0 ni I/1 para evitar confusiones
+let pendingForceChangeCode = null;
+
+function randomCode(len){
+  let out = '';
+  for(let i=0;i<len;i++){
+    out += CODE_CHARS.charAt(Math.floor(Math.random()*CODE_CHARS.length));
+  }
+  return out;
+}
+
+async function getCodeRegistry(){
+  try{
+    const res = await storageGet(CODE_REGISTRY_KEY);
+    return res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    return [];
   }
 }
 
-function submitCode(){
-  const val = document.getElementById('codeInput').value.trim();
-  if(!val){
+async function addCodeToRegistry(code){
+  const list = await getCodeRegistry();
+  if(!list.includes(code)){
+    list.push(code);
+    await storageSet(CODE_REGISTRY_KEY, JSON.stringify(list));
+  }
+}
+
+async function getCodeMeta(code){
+  try{
+    const res = await storageGet('codigo_meta:' + code);
+    return res && res.value ? JSON.parse(res.value) : null;
+  }catch(e){
+    return null;
+  }
+}
+
+async function setCodeMeta(code, meta){
+  await storageSet('codigo_meta:' + code, JSON.stringify(meta));
+}
+
+async function generateUniqueCode(){
+  const registry = await getCodeRegistry();
+  let candidate;
+  do{
+    candidate = randomCode(6);
+  }while(registry.includes(candidate));
+  return candidate;
+}
+
+function showCodeMode(mode){
+  document.getElementById('codeChoice').classList.toggle('hidden', mode !== 'choice');
+  document.getElementById('codeEnterBox').classList.toggle('hidden', mode !== 'enter');
+  document.getElementById('codeGeneratingBox').classList.add('hidden');
+  document.getElementById('codeResultBox').classList.add('hidden');
+  document.getElementById('codeForceChangeBox').classList.add('hidden');
+  if(mode === 'enter'){
+    document.getElementById('codeInput').value = '';
+    document.getElementById('codeLoginPassword').value = '';
+    document.getElementById('codeError').style.display = 'none';
+    setTimeout(()=> document.getElementById('codeInput').focus(), 100);
+  }
+}
+
+async function startGenerateCode(){
+  document.getElementById('codeChoice').classList.add('hidden');
+  document.getElementById('codeEnterBox').classList.add('hidden');
+  document.getElementById('codeResultBox').classList.add('hidden');
+  document.getElementById('codeForceChangeBox').classList.add('hidden');
+  document.getElementById('codeGeneratingBox').classList.remove('hidden');
+
+  const [newCode, newPassword] = await Promise.all([
+    generateUniqueCode(),
+    Promise.resolve(randomCode(6))
+  ]);
+
+  setTimeout(async ()=>{
+    await addCodeToRegistry(newCode);
+    await setCodeMeta(newCode, {password: newPassword, mustChange: true});
+
+    document.getElementById('resultCode').textContent = newCode;
+    document.getElementById('resultPassword').textContent = newPassword;
+    pendingForceChangeCode = newCode;
+
+    document.getElementById('codeGeneratingBox').classList.add('hidden');
+    document.getElementById('codeResultBox').classList.remove('hidden');
+  }, 1300);
+}
+
+function proceedFromCodeResult(){
+  currentCode = pendingForceChangeCode;
+  document.getElementById('codeResultBox').classList.add('hidden');
+  document.getElementById('forceNewPassword').value = '';
+  document.getElementById('forceNewPasswordConfirm').value = '';
+  document.getElementById('forceChangeError').style.display = 'none';
+  document.getElementById('codeForceChangeBox').classList.remove('hidden');
+}
+
+async function submitCode(){
+  const val = document.getElementById('codeInput').value.trim().toUpperCase();
+  const pass = document.getElementById('codeLoginPassword').value;
+  if(!val || !pass){
+    document.getElementById('codeError').textContent = 'Escribe tu código y tu contraseña.';
+    document.getElementById('codeError').style.display = 'block';
+    return;
+  }
+  const meta = await getCodeMeta(val);
+  if(!meta || meta.password !== pass){
+    document.getElementById('codeError').textContent = 'Código o contraseña incorrectos.';
     document.getElementById('codeError').style.display = 'block';
     return;
   }
   document.getElementById('codeError').style.display = 'none';
   currentCode = val;
-  document.getElementById('codeScreen').classList.add('hidden');
-  document.getElementById('profileScreen').classList.remove('hidden');
-  loadProfiles();
+
+  if(meta.mustChange){
+    document.getElementById('codeEnterBox').classList.add('hidden');
+    document.getElementById('forceNewPassword').value = '';
+    document.getElementById('forceNewPasswordConfirm').value = '';
+    document.getElementById('forceChangeError').style.display = 'none';
+    document.getElementById('codeForceChangeBox').classList.remove('hidden');
+  }else{
+    document.getElementById('codeScreen').classList.add('hidden');
+    document.getElementById('profileScreen').classList.remove('hidden');
+    loadProfiles();
+  }
 }
 
-function submitNewCode(){
-  const val = document.getElementById('newCodeInput').value.trim();
-  if(!val){
-    document.getElementById('newCodeError').style.display = 'block';
+async function submitForcePasswordChange(){
+  const p1 = document.getElementById('forceNewPassword').value;
+  const p2 = document.getElementById('forceNewPasswordConfirm').value;
+  if(!p1 || p1 !== p2){
+    document.getElementById('forceChangeError').style.display = 'block';
     return;
   }
-  document.getElementById('newCodeError').style.display = 'none';
-  currentCode = val;
+  document.getElementById('forceChangeError').style.display = 'none';
+  await setCodeMeta(currentCode, {password: p1, mustChange: false});
   document.getElementById('codeScreen').classList.add('hidden');
   document.getElementById('profileScreen').classList.remove('hidden');
+  showToast('Contraseña actualizada');
   loadProfiles();
 }
 
