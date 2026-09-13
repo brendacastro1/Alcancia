@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Alcancía</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23faf1ee'/%3E%3Ccircle cx='50' cy='50' r='45.6' fill='none' stroke='%23c9a15a' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='38.3' fill='%23b5486b'/%3E%3Cg stroke='%23e9cf9c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'%3E%3Cpath d='M40 53a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v20.5a3 3 0 0 1-3 3H45a3 3 0 0 1-3-3V53Z'/%3E%3Crect x='43.4' y='44.9' width='14' height='5.9' rx='1.8'/%3E%3C/g%3E%3Ccircle cx='50' cy='33.5' r='4.2' fill='%23e9cf9c' stroke='%23a9803f' stroke-width='0.6'/%3E%3Ctext x='50' y='35.5' text-anchor='middle' font-family='Georgia, serif' font-size='4.5' fill='%23a9803f'%3E%24%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#ff6fa0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Alcancía">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0iI2ZhZjFlZSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ1LjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2M5YTE1YSIgc3Ryb2tlLXdpZHRoPSIxIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMzguMyIgZmlsbD0iI2I1NDg2YiIvPjxnIHN0cm9rZT0iI2U5Y2Y5YyIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTQwIDUzYTIgMiAwIDAgMSAyLTJoMTZhMiAyIDAgMCAxIDIgMnYyMC41YTMgMyAwIDAgMS0zIDNINDVhMyAzIDAgMCAxLTMtM1Y1M1oiLz48cmVjdCB4PSI0My40IiB5PSI0NC45IiB3aWR0aD0iMTQiIGhlaWdodD0iNS45IiByeD0iMS44Ii8+PC9nPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzMuNSIgcj0iNC4yIiBmaWxsPSIjZTljZjljIiBzdHJva2U9IiNhOTgwM2YiIHN0cm9rZS13aWR0aD0iMC42Ii8+PHRleHQgeD0iNTAiIHk9IjM1LjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgZm9udC1zaXplPSI0LjUiIGZpbGw9IiNhOTgwM2YiPiQ8L3RleHQ+PC9zdmc+">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIk1pIGFsY2FuY1x1MDBlZGEiLCAic2hvcnRfbmFtZSI6ICJBbGNhbmNcdTAwZWRhIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmY1ZjgiLCAidGhlbWVfY29sb3IiOiAiI2ZmNmZhMCIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBeE1EQWdNVEF3SWo0OFkybHlZMnhsSUdONFBTSTFNQ0lnWTNrOUlqVXdJaUJ5UFNJME9DSWdabWxzYkQwaUkyWmhaakZsWlNJdlBqeGphWEpqYkdVZ1kzZzlJalV3SWlCamVUMGlOVEFpSUhJOUlqUTFMallpSUdacGJHdzlJbTV2Ym1VaUlITjBjbTlyWlQwaUkyTTVZVEUxWVNJZ2MzUnliMnRsTFhkcFpIUm9QU0l4SWk4K1BHTnBjbU5zWlNCamVEMGlOVEFpSUdONVBTSTFNQ0lnY2owaU16Z3VNeUlnWm1sc2JEMGlJMkkxTkRnMllpSXZQanhuSUhOMGNtOXJaVDBpSTJVNVkyWTVZeUlnYzNSeWIydGxMWGRwWkhSb1BTSXlMalFpSUhOMGNtOXJaUzFzYVc1bFkyRndQU0p5YjNWdVpDSWdjM1J5YjJ0bExXeHBibVZxYjJsdVBTSnliM1Z1WkNJZ1ptbHNiRDBpYm05dVpTSStQSEJoZEdnZ1pEMGlUVFF3SURVellUSWdNaUF3SURBZ01TQXlMVEpvTVRaaE1pQXlJREFnTUNBeElESWdNbll5TUM0MVlUTWdNeUF3SURBZ01TMHpJRE5JTkRWaE15QXpJREFnTUNBeExUTXRNMVkxTTFvaUx6NDhjbVZqZENCNFBTSTBNeTQwSWlCNVBTSTBOQzQ1SWlCM2FXUjBhRDBpTVRRaUlHaGxhV2RvZEQwaU5TNDVJaUJ5ZUQwaU1TNDRJaTgrUEM5blBqeGphWEpqYkdVZ1kzZzlJalV3SWlCamVUMGlNek11TlNJZ2NqMGlOQzR5SWlCbWFXeHNQU0lqWlRsalpqbGpJaUJ6ZEhKdmEyVTlJaU5oT1Rnd00yWWlJSE4wY205clpTMTNhV1IwYUQwaU1DNDJJaTgrUEhSbGVIUWdlRDBpTlRBaUlIazlJak0xTGpVaUlIUmxlSFF0WVc1amFHOXlQU0p0YVdSa2JHVWlJR1p2Ym5RdFptRnRhV3g1UFNKSFpXOXlaMmxoTENCelpYSnBaaUlnWm05dWRDMXphWHBsUFNJMExqVWlJR1pwYkd3OUlpTmhPVGd3TTJZaVBpUThMM1JsZUhRK1BDOXpkbWMrIiwgInNpemVzIjogIjEwMHgxMDAiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55In1dfQ==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fff5f8;
+    --card:#ffffff;
+    --primary:#ff6fa0;
+    --primary-dark:#c23c72;
+    --primary-light:#ffc6d9;
+    --primary-pale:#ffeef4;
+    --text:#3b1e2b;
+    --text-secondary:#8b6270;
+    --income:#3e8062;
+    --income-bg:#e6f2ec;
+    --expense:#b8423b;
+    --expense-bg:#f9e6e4;
+    --border:#ffd9e6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background-color:var(--bg);
+    background-image:url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIHZpZXdCb3g9IjAgMCAxNjAwIDkwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZkZjNlZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjQ1JSIgc3RvcC1jb2xvcj0iI2ZhZWFlNyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmM2RjZTIiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3cxIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjdjZGQ4IiBzdG9wLW9wYWNpdHk9IjAuNTUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjdjZGQ4IiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3cyIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTljZjljIiBzdG9wLW9wYWNpdHk9IjAuNCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlOWNmOWMiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idmVpbkdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjYzlhMTVhIiBzdG9wLW9wYWNpdHk9IjAuNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjOWExNWEiIHN0b3Atb3BhY2l0eT0iMC4wNSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjkwMCIgZmlsbD0idXJsKCNiZ0dyYWQpIi8+CgogIDxjaXJjbGUgY3g9IjIyMCIgY3k9IjE1MCIgcj0iMzIwIiBmaWxsPSJ1cmwoI2dsb3cxKSIvPgogIDxjaXJjbGUgY3g9IjE0MjAiIGN5PSI3NjAiIHI9IjM2MCIgZmlsbD0idXJsKCNnbG93MSkiLz4KICA8Y2lyY2xlIGN4PSIxMzAwIiBjeT0iMTgwIiByPSIyNDAiIGZpbGw9InVybCgjZ2xvdzIpIi8+CiAgPGNpcmNsZSBjeD0iMjYwIiBjeT0iNzYwIiByPSIyMjAiIGZpbGw9InVybCgjZ2xvdzIpIi8+CgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCN2ZWluR3JhZCkiIHN0cm9rZS13aWR0aD0iMS40IiBvcGFjaXR5PSIwLjYiPgogICAgPHBhdGggZD0iTS0yMCAzMDAgQyAzMDAgMjYwLCA1MDAgNDIwLCA3ODAgMzQwIFMgMTI1MCAyNjAsIDE2MjAgMzgwIi8+CiAgICA8cGF0aCBkPSJNLTIwIDYyMCBDIDI2MCA1NjAsIDU2MCA3MDAsIDg2MCA2MDAgUyAxMzIwIDUyMCwgMTYyMCA2NDAiLz4KICAgIDxwYXRoIGQ9Ik0zMDAgLTIwIEMgMzgwIDIwMCwgMjYwIDM4MCwgNDIwIDU2MCIvPgogICAgPHBhdGggZD0iTTEyNDAgOTIwIEMgMTE4MCA3MDAsIDEzMDAgNTQwLCAxMTYwIDM4MCIvPgogIDwvZz4KCiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhMTVhIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuOSI+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MCw3MCkiPgogICAgICA8cGF0aCBkPSJNMCA5MCBDIDUgNTUsIDI1IDI1LCA2MCA1Ii8+CiAgICAgIDxwYXRoIGQ9Ik0xNSA2MmMtMTQtNC0yNCAyLTMwIDE0IDE0IDQgMjQtMiAzMC0xNFoiIGZpbGw9IiNjOWExNWEiIG9wYWNpdHk9IjAuODUiLz4KICAgICAgPHBhdGggZD0iTTMwIDM0Yy0xMi04LTI0LTYtMzMgNCAxMiA4IDI0IDYgMzMtNFoiIGZpbGw9IiNjOWExNWEiIG9wYWNpdHk9IjAuNyIvPgogICAgICA8cGF0aCBkPSJNNDYgMTRjLTgtMTEtMjAtMTMtMzEtNyA4IDExIDIwIDEzIDMxIDdaIiBmaWxsPSIjYzlhMTVhIiBvcGFjaXR5PSIwLjU1Ii8+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU4LDIpIj4KICAgICAgICA8cGF0aCBkPSJNMCAwIEMgLTEwIC0xNCwgLTggLTMwLCA0IC0zOCBDIDE2IC0zMCwgMTggLTE0LCA4IDAgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTI4YmE2IiBzdHJva2Utd2lkdGg9IjEuMiIvPgogICAgICAgIDxwYXRoIGQ9Ik0wIDAgQyAtMTAgLTE0LCAtOCAtMzAsIDQgLTM4IEMgMTYgLTMwLCAxOCAtMTQsIDggMCBaIiBmaWxsPSIjZjNjZmRjIiBvcGFjaXR5PSIwLjUiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI0IiBjeT0iLTIwIiByPSIyLjIiIGZpbGw9IiNjOWExNWEiLz4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KCiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhMTVhIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuOSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTYwMCw5MDApIHNjYWxlKC0xLC0xKSI+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MCw3MCkiPgogICAgICA8cGF0aCBkPSJNMCA5MCBDIDUgNTUsIDI1IDI1LCA2MCA1Ii8+CiAgICAgIDxwYXRoIGQ9Ik0xNSA2MmMtMTQtNC0yNCAyLTMwIDE0IDE0IDQgMjQtMiAzMC0xNFoiIGZpbGw9IiNjOWExNWEiIG9wYWNpdHk9IjAuODUiLz4KICAgICAgPHBhdGggZD0iTTMwIDM0Yy0xMi04LTI0LTYtMzMgNCAxMiA4IDI0IDYgMzMtNFoiIGZpbGw9IiNjOWExNWEiIG9wYWNpdHk9IjAuNyIvPgogICAgICA8cGF0aCBkPSJNNDYgMTRjLTgtMTEtMjAtMTMtMzEtNyA4IDExIDIwIDEzIDMxIDdaIiBmaWxsPSIjYzlhMTVhIiBvcGFjaXR5PSIwLjU1Ii8+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU4LDIpIj4KICAgICAgICA8cGF0aCBkPSJNMCAwIEMgLTEwIC0xNCwgLTggLTMwLCA0IC0zOCBDIDE2IC0zMCwgMTggLTE0LCA4IDAgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTI4YmE2IiBzdHJva2Utd2lkdGg9IjEuMiIvPgogICAgICAgIDxwYXRoIGQ9Ik0wIDAgQyAtMTAgLTE0LCAtOCAtMzAsIDQgLTM4IEMgMTYgLTMwLCAxOCAtMTQsIDggMCBaIiBmaWxsPSIjZjNjZmRjIiBvcGFjaXR5PSIwLjUiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI0IiBjeT0iLTIwIiByPSIyLjIiIGZpbGw9IiNjOWExNWEiLz4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KCiAgPHJlY3QgeD0iMjYiIHk9IjI2IiB3aWR0aD0iMTU0OCIgaGVpZ2h0PSI4NDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2M5YTE1YSIgc3Ryb2tlLXdpZHRoPSIxLjQiIG9wYWNpdHk9IjAuNzUiLz4KICA8cmVjdCB4PSIzNCIgeT0iMzQiIHdpZHRoPSIxNTMyIiBoZWlnaHQ9IjgzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhMTVhIiBzdHJva2Utd2lkdGg9IjAuNiIgb3BhY2l0eT0iMC41Ii8+Cjwvc3ZnPgo=');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px;}
+  header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:32px;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand svg{flex-shrink:0;}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:32px;
+    margin:0;
+    color:var(--primary-dark);
+  }
+  .brand p{margin:2px 0 0;color:var(--text-secondary);font-size:14px;}
+  .add-btn{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:12px 22px;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:background 0.15s ease;
+  }
+  .add-btn:hover{background:var(--primary-dark);}
+  .toolbar{display:flex;justify-content:flex-end;margin-bottom:20px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:18px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:20px;
+    cursor:pointer;
+    position:relative;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card.dragging{opacity:0.5;}
+  .card.drag-over{outline:2px dashed var(--primary);outline-offset:2px;}
+  .star-btn{
+    position:absolute;top:14px;right:14px;background:none;border:none;
+    cursor:pointer;color:var(--border);padding:4px;z-index:2;
+  }
+  .star-btn svg{display:block;}
+  .star-btn:hover{color:var(--primary-light);}
+  .star-btn.active{color:#e3b23c;}
+  .sparkline{margin-top:10px;line-height:0;}
+  .sparkline svg{display:block;width:100%;height:32px;}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,111,160,0.18);}
+  .card-photo{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--primary-pale);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;margin-bottom:14px;
+    color:var(--primary);
+  }
+  .card-photo img{width:100%;height:100%;object-fit:cover;}
+  .card-name{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 4px;}
+  .card-balance{font-size:24px;font-weight:600;font-family:'Fraunces',serif;}
+  .card-balance.neg{color:var(--expense);}
+  .card-count{color:var(--text-secondary);font-size:13px;margin-top:6px;}
+  .progress-bar{height:7px;border-radius:999px;background:var(--primary-pale);overflow:hidden;margin-top:10px;}
+  .progress-fill{height:100%;background:var(--primary);border-radius:999px;}
+  .goal-label{font-size:12px;color:var(--text-secondary);margin-top:6px;}
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--text-secondary);
+  }
+  .empty svg{margin-bottom:12px;color:var(--primary-light);}
+  .empty p{margin:4px 0;}
+  .empty p.big{font-family:'Fraunces',serif;font-size:20px;color:var(--text);}
+
+  .archived-toggle{margin:28px 0 8px;}
+  .archived-toggle summary{
+    cursor:pointer;color:var(--text-secondary);font-size:14px;font-weight:600;
+    list-style:none;
+  }
+  .archived-toggle summary::-webkit-details-marker{display:none;}
+  .archived-toggle summary::before{content:'▸ ';}
+  .archived-toggle[open] summary::before{content:'▾ ';}
+  .archived-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:14px;margin-top:14px;
+  }
+  .archived-card{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:16px;opacity:0.75;
+  }
+  .archived-card .card-name{font-size:16px;}
+  .restore-btn{
+    margin-top:10px;width:100%;padding:8px;border-radius:10px;
+    border:1px solid var(--border);background:#fff;color:var(--primary-dark);
+    font-weight:600;font-size:13px;cursor:pointer;
+  }
+  .restore-btn:hover{background:var(--primary-pale);}
+
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(59,30,43,0.35);
+    display:none;
+    align-items:center;justify-content:center;
+    padding:20px;
+    z-index:50;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--card);
+    border-radius:22px;
+    padding:28px;
+    width:100%;
+    max-width:440px;
+    max-height:88vh;
+    overflow-y:auto;
+    position:relative;
+  }
+  .modal.wide{max-width:560px;}
+  .modal h2{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    margin:0 0 18px;
+    color:var(--primary-dark);
+  }
+  label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;}
+  input[type=text],input[type=number],input[type=date],input[type=month]{
+    width:100%;
+    padding:11px 14px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    color:var(--text);
+    background:#fff;
+    margin-bottom:16px;
+  }
+  input:focus{outline:none;border-color:var(--primary);}
+  .photo-row{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+  .photo-preview{
+    width:64px;height:64px;border-radius:50%;
+    background:var(--primary-pale);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;color:var(--primary);flex-shrink:0;
+  }
+  .photo-preview img{width:100%;height:100%;object-fit:cover;}
+  .file-btn{
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:10px;
+    padding:9px 14px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--primary-dark);
+    cursor:pointer;
+  }
+  .file-btn:hover{background:var(--primary-pale);}
+  .hint{font-size:12px;color:var(--text-secondary);margin-top:4px;}
+  .modal-actions{display:flex;gap:10px;margin-top:6px;}
+  .btn-primary,.btn-secondary{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    border:none;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-primary{background:var(--primary);color:#fff;}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-secondary{background:#fff;border:1px solid var(--border);color:var(--text);}
+  .btn-secondary:hover{background:var(--primary-pale);}
+  .error-text{color:var(--expense);font-size:12px;margin:-10px 0 12px;display:none;}
+
+  .detail-head{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
+  .detail-photo{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--primary-pale);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;color:var(--primary);flex-shrink:0;
+  }
+  .detail-photo img{width:100%;height:100%;object-fit:cover;}
+  .edit-account-btn{
+    background:none;border:none;cursor:pointer;
+    color:var(--text-secondary);padding:6px;border-radius:8px;
+  }
+  .edit-account-btn:hover{background:var(--primary-pale);color:var(--primary-dark);}
+  .detail-star-btn{background:none;border:none;cursor:pointer;color:var(--border);padding:6px;border-radius:8px;}
+  .detail-star-btn:hover{background:var(--primary-pale);}
+  .detail-star-btn.active{color:#e3b23c;}
+  .detail-sparkline{margin:6px 0 18px;}
+  .detail-sparkline svg{display:block;width:100%;height:70px;}
+  .detail-balance{
+    text-align:center;
+    background:var(--primary-pale);
+    border-radius:16px;
+    padding:18px;
+    margin:18px 0 14px;
+  }
+  .detail-balance span{display:block;font-size:12px;color:var(--text-secondary);margin-bottom:4px;}
+  .detail-balance strong{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--primary-dark);}
+  .detail-balance strong.neg{color:var(--expense);}
+
+  .stats-row{display:flex;gap:10px;margin-bottom:18px;}
+  .stats-label{font-size:12px;color:var(--text-secondary);font-weight:600;margin:0 0 8px;}
+  .stat-box{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;text-align:center;}
+  .stat-box span{display:block;font-size:11px;color:var(--text-secondary);margin-bottom:2px;}
+  .stat-box strong{font-size:15px;font-weight:600;}
+  .stat-box.income strong{color:var(--income);}
+  .stat-box.expense strong{color:var(--expense);}
+
+  .type-toggle{display:flex;gap:8px;margin-bottom:16px;}
+  .type-toggle button{
+    flex:1;padding:10px;border-radius:12px;border:1px solid var(--border);
+    background:#fff;font-weight:600;font-size:14px;cursor:pointer;color:var(--text-secondary);
+  }
+  .type-toggle button.active-income{background:var(--income-bg);border-color:var(--income);color:var(--income);}
+  .type-toggle button.active-expense{background:var(--expense-bg);border-color:var(--expense);color:var(--expense);}
+
+  .move-form-actions{display:flex;align-items:center;gap:14px;}
+  .cancel-edit-link{
+    background:none;border:none;color:var(--text-secondary);
+    font-size:13px;cursor:pointer;text-decoration:underline;display:none;
+  }
+
+  .filters-row{display:flex;gap:10px;margin-bottom:12px;}
+  .filters-row input{margin-bottom:0;}
+
+  .movements{margin-top:22px;}
+  .movements h3{font-size:13px;color:var(--text-secondary);text-transform:none;margin:0 0 10px;font-weight:600;}
+  .move-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 0;border-bottom:1px solid var(--border);
+    gap:10px;
+  }
+  .move-row:last-child{border-bottom:none;}
+  .move-desc{font-size:14px;font-weight:500;}
+  .move-date{font-size:12px;color:var(--text-secondary);}
+  .move-amount{font-weight:600;font-size:14px;white-space:nowrap;}
+  .move-amount.income{color:var(--income);}
+  .move-amount.expense{color:var(--expense);}
+  .move-actions{display:flex;gap:2px;flex-shrink:0;}
+  .icon-btn{background:none;border:none;cursor:pointer;color:var(--text-secondary);padding:5px;border-radius:8px;display:flex;}
+  .icon-btn:hover{background:var(--primary-pale);color:var(--primary-dark);}
+  .no-moves{color:var(--text-secondary);font-size:13px;padding:14px 0;text-align:center;}
+  .delete-link{
+    display:block;text-align:center;margin-top:20px;
+    color:var(--text-secondary);font-size:13px;background:none;border:none;
+    cursor:pointer;text-decoration:underline;
+  }
+  .delete-link:hover{color:var(--expense);}
+  .archive-link{
+    display:block;text-align:center;margin-top:20px;
+    color:var(--text-secondary);font-size:13px;background:none;border:none;
+    cursor:pointer;text-decoration:underline;
+  }
+  .archive-link:hover{color:var(--primary-dark);}
+  .close-x{
+    position:absolute;top:18px;right:18px;background:none;border:none;
+    cursor:pointer;color:var(--text-secondary);
+  }
+
+  .btn-danger{
+    flex:1;padding:12px;border-radius:12px;font-weight:600;font-size:14px;
+    cursor:pointer;border:none;font-family:'Inter',sans-serif;
+    background:var(--expense);color:#fff;
+  }
+  .btn-danger:hover{background:#93332c;}
+  .confirm-message{font-size:14px;color:var(--text);margin:0 0 20px;line-height:1.5;}
+
+  .toast-container{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
+    z-index:100;display:flex;flex-direction:column;gap:8px;align-items:center;
+    pointer-events:none;
+  }
+  .toast{
+    background:var(--primary-dark);color:#fff;padding:12px 22px;border-radius:999px;
+    font-size:14px;font-weight:600;box-shadow:0 8px 20px rgba(59,30,43,0.25);
+    opacity:0;transform:translateY(10px);transition:opacity 0.25s ease, transform 0.25s ease;
+    white-space:nowrap;
+  }
+  .toast.show{opacity:1;transform:translateY(0);}
+
+  .swatch-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .color-swatch{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;}
+  .color-swatch.selected{border-color:var(--text);}
+  .icon-swatch{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);}
+  .icon-swatch.selected{background:var(--primary-pale);border-color:var(--primary);color:var(--primary-dark);}
+
+  .install-btn{
+    background:#fff;
+    color:var(--primary-dark);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:12px 18px;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .install-btn:hover{background:var(--primary-pale);}
+
+  .gear-btn{
+    background:none;border:1px solid var(--border);border-radius:999px;
+    padding:10px;cursor:pointer;color:var(--text-secondary);display:inline-flex;
+  }
+  .gear-btn:hover{background:var(--primary-pale);color:var(--primary-dark);}
+  .theme-swatch-row{display:flex;gap:14px;justify-content:center;margin:10px 0 6px;flex-wrap:wrap;}
+  .theme-swatch{width:42px;height:42px;border-radius:50%;border:3px solid transparent;cursor:pointer;}
+  .theme-swatch.selected{border-color:var(--text);}
+
+  .recurring-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:14px;font-weight:500;color:var(--text);}
+  .recurring-row input{width:auto;margin:0;}
+  .recurring-list{margin-top:16px;}
+  .recurring-item{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--primary-pale);border-radius:10px;padding:8px 12px;margin-bottom:8px;
+    font-size:13px;
+  }
+  .recurring-item button{
+    background:none;border:none;color:var(--text-secondary);font-size:12px;
+    cursor:pointer;text-decoration:underline;
+  }
+  .repeat-badge{color:var(--primary);vertical-align:-2px;margin-right:4px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg width="42" height="42" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#faf1ee"/>
+        <circle cx="50" cy="50" r="45.6" fill="none" stroke="#c9a15a" stroke-width="1"/>
+        <circle cx="50" cy="50" r="38.3" fill="#b5486b"/>
+        <g stroke="#e9cf9c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path d="M40 53a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v20.5a3 3 0 0 1-3 3H45a3 3 0 0 1-3-3V53Z"/>
+          <rect x="43.4" y="44.9" width="14" height="5.9" rx="1.8"/>
+        </g>
+        <circle cx="50" cy="33.5" r="4.2" fill="#e9cf9c" stroke="#a9803f" stroke-width="0.6"/>
+        <text x="50" y="35.5" text-anchor="middle" font-family="Georgia, serif" font-size="4.5" fill="#a9803f">$</text>
+      </svg>
+      <div>
+        <h1>Mi alcancía</h1>
+        <p>Tus cuentas de ahorro, en un solo lugar</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button class="install-btn" id="installBtn" onclick="handleInstallClick()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>
+      Instalar
+    </button>
+    <button class="gear-btn" onclick="openThemeModal()" aria-label="Elegir tema">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1H3a2 2 0 0 1 0-4h.09a1.7 1.7 0 0 0 1.56-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.56 1Z"/></svg>
+    </button>
+    <button class="add-btn" onclick="openNewAccountModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+      Nueva cuenta
+    </button>
+  </div>
+
+  <div id="gridArea"></div>
+  <div id="archivedArea"></div>
+</div>
+
+<!-- Modal: nueva cuenta / editar cuenta -->
+<div class="overlay" id="accountModal">
+  <div class="modal">
+    <button class="close-x" onclick="closeModal('accountModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2 id="accountModalTitle">Nueva cuenta de ahorro</h2>
+    <label for="accName">Nombre de la cuenta</label>
+    <input type="text" id="accName" placeholder="Vacaciones, emergencias, casa...">
+    <p class="error-text" id="accNameError">Escribe un nombre para la cuenta.</p>
+
+    <label for="accGoal">Meta de ahorro (opcional)</label>
+    <input type="number" id="accGoal" placeholder="0.00" min="0" step="0.01">
+
+    <label>Foto (opcional)</label>
+    <div class="photo-row">
+      <div class="photo-preview" id="accPhotoPreview">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>
+      </div>
+      <div>
+        <input type="file" id="accPhotoInput" accept="image/*" style="display:none" onchange="handlePhotoSelect(event,'accPhotoPreview')">
+        <button type="button" class="file-btn" onclick="document.getElementById('accPhotoInput').click()">Elegir foto</button>
+        <p class="hint">Puedes dejarlo sin foto.</p>
+      </div>
+    </div>
+
+    <label>Color (opcional, si no subes foto)</label>
+    <div class="swatch-row" id="colorSwatchRow">
+      <button type="button" class="color-swatch" data-color="#ff6fa0" style="background:#ff6fa0" onclick="selectColor('#ff6fa0', this)"></button>
+      <button type="button" class="color-swatch" data-color="#f4a261" style="background:#f4a261" onclick="selectColor('#f4a261', this)"></button>
+      <button type="button" class="color-swatch" data-color="#e9c46a" style="background:#e9c46a" onclick="selectColor('#e9c46a', this)"></button>
+      <button type="button" class="color-swatch" data-color="#8ecae6" style="background:#8ecae6" onclick="selectColor('#8ecae6', this)"></button>
+      <button type="button" class="color-swatch" data-color="#a78bfa" style="background:#a78bfa" onclick="selectColor('#a78bfa', this)"></button>
+      <button type="button" class="color-swatch" data-color="#4c9a78" style="background:#4c9a78" onclick="selectColor('#4c9a78', this)"></button>
+      <button type="button" class="color-swatch" data-color="#f28482" style="background:#f28482" onclick="selectColor('#f28482', this)"></button>
+      <button type="button" class="color-swatch" data-color="#94a3b8" style="background:#94a3b8" onclick="selectColor('#94a3b8', this)"></button>
+    </div>
+
+    <label>Ícono (opcional, si no subes foto)</label>
+    <div class="swatch-row" id="iconSwatchRow">
+      <button type="button" class="icon-swatch" onclick="selectIcon('home', this)" aria-label="Casa"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></button>
+      <button type="button" class="icon-swatch" onclick="selectIcon('plane', this)" aria-label="Viaje"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13l8-2 6-8 2 2-5 7 4 1-2 2-4-1-3 3 1 3-2 1-2-4-4-1 2-2 3 1z"/></svg></button>
+      <button type="button" class="icon-swatch" onclick="selectIcon('heart', this)" aria-label="Corazón"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20s-7-4.4-9.3-8.7C1.2 8 3 5 6.3 5c1.9 0 3.4 1 5.7 3.4C14.3 6 15.8 5 17.7 5 21 5 22.8 8 21.3 11.3 19 15.6 12 20 12 20Z"/></svg></button>
+      <button type="button" class="icon-swatch" onclick="selectIcon('gift', this)" aria-label="Regalo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M4 13h16M12 9v11M8 9c-2 0-3-1.2-3-2.5S6 4 8 5c1.5.8 2.5 2 4 2M16 9c2 0 3-1.2 3-2.5S18 4 16 5c-1.5.8-2.5 2-4 2"/></svg></button>
+      <button type="button" class="icon-swatch" onclick="selectIcon('star', this)" aria-label="Estrella"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8l-5.9 2.6 1.3-6.5-4.9-4.5 6.6-.8L12 2.5Z"/></svg></button>
+      <button type="button" class="icon-swatch" onclick="selectIcon('book', this)" aria-label="Estudio"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 18a2.5 2.5 0 0 1 2.5-2.5H20"/></svg></button>
+      <button type="button" class="icon-swatch" onclick="selectIcon('car', this)" aria-label="Auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16V11l2-5h12l2 5v5"/><path d="M4 16h16M7 16v2M17 16v2"/><circle cx="7.5" cy="16" r="1"/><circle cx="16.5" cy="16" r="1"/></svg></button>
+      <button type="button" class="icon-swatch" onclick="selectIcon('leaf', this)" aria-label="Naturaleza"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 20C4 12 9 4 20 4c0 11-8 16-16 16Z"/><path d="M5 20c2-6 5-9 10-11"/></svg></button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('accountModal')">Cancelar</button>
+      <button class="btn-primary" id="accountModalSubmit" onclick="submitAccountModal()">Crear cuenta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: detalle de cuenta -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal wide">
+    <button class="close-x" onclick="closeModal('detailOverlay')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="detail-head">
+      <div class="detail-photo" id="detailPhoto"></div>
+      <h2 id="detailName" style="margin:0;"></h2>
+      <div style="margin-left:auto;display:flex;gap:2px;">
+        <button class="detail-star-btn" id="detailStarBtn" onclick="toggleFavorite(currentAccountId)" aria-label="Marcar como favorita">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8l-5.9 2.6 1.3-6.5-4.9-4.5 6.6-.8L12 2.5Z"/></svg>
+        </button>
+        <button class="edit-account-btn" onclick="openEditAccountModal()" aria-label="Editar cuenta">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-balance">
+      <span>Saldo de esta cuenta</span>
+      <strong id="detailBalance">$0.00</strong>
+      <div id="goalArea"></div>
+    </div>
+
+    <div class="detail-sparkline" id="detailSparkline"></div>
+
+    <div class="stats-label">Histórico</div>
+    <div class="stats-row">
+      <div class="stat-box income">
+        <span>Ingresos</span>
+        <strong id="statIncome">$0.00</strong>
+      </div>
+      <div class="stat-box expense">
+        <span>Egresos</span>
+        <strong id="statExpense">$0.00</strong>
+      </div>
+    </div>
+
+    <div class="stats-label">Últimos 30 días</div>
+    <div class="stats-row">
+      <div class="stat-box income">
+        <span>Ingresos</span>
+        <strong id="statIncome30">$0.00</strong>
+      </div>
+      <div class="stat-box expense">
+        <span>Egresos</span>
+        <strong id="statExpense30">$0.00</strong>
+      </div>
+    </div>
+
+    <label>Tipo de movimiento</label>
+    <div class="type-toggle">
+      <button type="button" id="btnIncome" onclick="setMoveType('ingreso')">+ Ingreso</button>
+      <button type="button" id="btnExpense" onclick="setMoveType('egreso')">- Egreso</button>
+    </div>
+
+    <label for="moveDesc">Descripción</label>
+    <input type="text" id="moveDesc" placeholder="Depósito de quincena, retiro para...">
+    <label for="moveAmount">Monto</label>
+    <input type="number" id="moveAmount" placeholder="0.00" min="0" step="0.01">
+    <label for="moveDate">Fecha</label>
+    <input type="date" id="moveDate">
+    <div class="recurring-row" id="moveRecurringRow">
+      <input type="checkbox" id="moveRecurring">
+      <label for="moveRecurring" style="margin:0;">Se repite cada mes</label>
+    </div>
+    <p class="error-text" id="moveError">Escribe una descripción y un monto mayor a 0.</p>
+
+    <div class="move-form-actions">
+      <button class="btn-primary" style="width:100%;" id="moveSubmitBtn" onclick="addMovement()">Agregar movimiento</button>
+      <button class="cancel-edit-link" id="cancelEditBtn" onclick="cancelEditMovement()">Cancelar</button>
+    </div>
+
+    <div class="movements">
+      <h3>Movimientos</h3>
+      <div class="filters-row">
+        <input type="text" id="moveSearch" placeholder="Buscar por descripción" oninput="renderDetail()">
+        <input type="month" id="moveMonthFilter" onchange="renderDetail()">
+      </div>
+      <div id="movesList"></div>
+    </div>
+
+    <div class="recurring-list" id="recurringArea"></div>
+
+    <button class="archive-link" id="archiveBtn" onclick="toggleArchive()">Archivar esta cuenta</button>
+    <button class="delete-link" onclick="deleteAccount()">Eliminar esta cuenta</button>
+  </div>
+</div>
+
+<!-- Modal: confirmación -->
+<div class="overlay" id="confirmModal">
+  <div class="modal" style="max-width:380px;">
+    <p class="confirm-message" id="confirmMessage"></p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn-primary" id="confirmActionBtn" onclick="runConfirm()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: cómo instalar -->
+<div class="overlay" id="installHelpModal">
+  <div class="modal" style="max-width:400px;">
+    <button class="close-x" onclick="closeModal('installHelpModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2>Instalar en tu celular</h2>
+    <p class="confirm-message" id="installHelpText"></p>
+    <div class="modal-actions">
+      <button class="btn-primary" style="width:100%;" onclick="closeModal('installHelpModal')">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: elegir tema -->
+<div class="overlay" id="themeModal">
+  <div class="modal" style="max-width:360px;">
+    <button class="close-x" onclick="closeModal('themeModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2>Elegir tema</h2>
+    <div class="theme-swatch-row">
+      <button type="button" class="theme-swatch" id="theme-rosa" style="background:#ff6fa0" onclick="selectTheme('rosa')" aria-label="Rosa"></button>
+      <button type="button" class="theme-swatch" id="theme-lavanda" style="background:#8b7bd8" onclick="selectTheme('lavanda')" aria-label="Lavanda"></button>
+      <button type="button" class="theme-swatch" id="theme-salvia" style="background:#6b9b7a" onclick="selectTheme('salvia')" aria-label="Salvia"></button>
+      <button type="button" class="theme-swatch" id="theme-azul" style="background:#5b8fd6" onclick="selectTheme('azul')" aria-label="Azul"></button>
+      <button type="button" class="theme-swatch" id="theme-durazno" style="background:#e8935f" onclick="selectTheme('durazno')" aria-label="Durazno"></button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+
+<script>
+let accounts = [];
+let currentAccountId = null;
+let currentMoveType = 'ingreso';
+let pendingPhotoData = null;
+let accountModalMode = 'create';
+let editingAccountId = null;
+let editingMoveId = null;
+
+const STORAGE_KEY = 'cuentas';
+const THEME_KEY = 'tema';
+
+async function storageGet(key){
+  if(window.storage){
+    try{ return await window.storage.get(key, false); }catch(e){ return null; }
+  }
+  try{
+    const v = localStorage.getItem(key);
+    return v !== null ? {value: v} : null;
+  }catch(e){ return null; }
+}
+
+async function storageSet(key, value){
+  if(window.storage){
+    try{ return await window.storage.set(key, value, false); }catch(e){ return null; }
+  }
+  try{
+    localStorage.setItem(key, value);
+    return {value};
+  }catch(e){ return null; }
+}
+
+const PERSON_ICON = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>';
+const REPEAT_ICON = '<svg class="repeat-badge" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
+
+const ICONS = {
+  home: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg>',
+  plane: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13l8-2 6-8 2 2-5 7 4 1-2 2-4-1-3 3 1 3-2 1-2-4-4-1 2-2 3 1z"/></svg>',
+  heart: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20s-7-4.4-9.3-8.7C1.2 8 3 5 6.3 5c1.9 0 3.4 1 5.7 3.4C14.3 6 15.8 5 17.7 5 21 5 22.8 8 21.3 11.3 19 15.6 12 20 12 20Z"/></svg>',
+  gift: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M4 13h16M12 9v11M8 9c-2 0-3-1.2-3-2.5S6 4 8 5c1.5.8 2.5 2 4 2M16 9c2 0 3-1.2 3-2.5S18 4 16 5c-1.5.8-2.5 2-4 2"/></svg>',
+  star: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8l-5.9 2.6 1.3-6.5-4.9-4.5 6.6-.8L12 2.5Z"/></svg>',
+  book: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 18a2.5 2.5 0 0 1 2.5-2.5H20"/></svg>',
+  car: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16V11l2-5h12l2 5v5"/><path d="M4 16h16M7 16v2M17 16v2"/><circle cx="7.5" cy="16" r="1"/><circle cx="16.5" cy="16" r="1"/></svg>',
+  leaf: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 20C4 12 9 4 20 4c0 11-8 16-16 16Z"/><path d="M5 20c2-6 5-9 10-11"/></svg>'
+};
+
+const THEMES = {
+  rosa:    {primary:'#ff6fa0', dark:'#c23c72', light:'#ffc6d9', pale:'#ffeef4', bg:'#fff5f8', border:'#ffd9e6'},
+  lavanda: {primary:'#8b7bd8', dark:'#5b4bb0', light:'#d9d2f7', pale:'#f2f0fc', bg:'#f8f7fd', border:'#e3ddf7'},
+  salvia:  {primary:'#6b9b7a', dark:'#416b4d', light:'#c9e0d0', pale:'#eef6f0', bg:'#f6faf7', border:'#d7ead9'},
+  azul:    {primary:'#5b8fd6', dark:'#34619e', light:'#c8dcf5', pale:'#eef4fc', bg:'#f5f9fd', border:'#d6e4f5'},
+  durazno: {primary:'#e8935f', dark:'#a85f34', light:'#f7d3b8', pale:'#fdf0e6', bg:'#fdf8f4', border:'#f2ddc8'}
+};
+
+let pendingColor = null;
+let pendingIcon = null;
+
+function selectColor(hex, el){
+  pendingColor = (pendingColor === hex) ? null : hex;
+  document.querySelectorAll('#colorSwatchRow .color-swatch').forEach(b=>b.classList.remove('selected'));
+  if(pendingColor) el.classList.add('selected');
+}
+
+function selectIcon(key, el){
+  pendingIcon = (pendingIcon === key) ? null : key;
+  document.querySelectorAll('#iconSwatchRow .icon-swatch').forEach(b=>b.classList.remove('selected'));
+  if(pendingIcon) el.classList.add('selected');
+}
+
+function avatarStyle(acc){
+  if(!acc.photo && acc.icon){
+    return `background:${acc.color || '#ff6fa0'};color:#fff;`;
+  }
+  return '';
+}
+
+function avatarContent(acc){
+  if(acc.photo) return `<img src="${acc.photo}" alt="">`;
+  if(acc.icon) return ICONS[acc.icon] || PERSON_ICON;
+  return PERSON_ICON;
+}
+
+function applyTheme(name){
+  const t = THEMES[name] || THEMES.rosa;
+  const r = document.documentElement.style;
+  r.setProperty('--primary', t.primary);
+  r.setProperty('--primary-dark', t.dark);
+  r.setProperty('--primary-light', t.light);
+  r.setProperty('--primary-pale', t.pale);
+  r.setProperty('--bg', t.bg);
+  r.setProperty('--border', t.border);
+  document.querySelectorAll('.theme-swatch').forEach(b=>b.classList.remove('selected'));
+  const el = document.getElementById('theme-' + name);
+  if(el) el.classList.add('selected');
+}
+
+async function selectTheme(name){
+  applyTheme(name);
+  try{ await storageSet(THEME_KEY, name); }catch(e){}
+  closeModal('themeModal');
+  showToast('Tema actualizado');
+}
+
+async function loadTheme(){
+  let name = 'rosa';
+  try{
+    const res = await storageGet(THEME_KEY);
+    if(res && res.value) name = res.value;
+  }catch(e){}
+  applyTheme(name);
+}
+
+function openThemeModal(){
+  document.getElementById('themeModal').classList.add('open');
+}
+
+
+function fmt(n){
+  const abs = Math.abs(n);
+  const val = '$' + abs.toLocaleString('es-SV', {minimumFractionDigits:2, maximumFractionDigits:2});
+  return n < 0 ? '-' + val : val;
+}
+
+function uid(){
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+}
+
+function todayStr(){
+  return new Date().toISOString().slice(0,10);
+}
+
+function balanceOf(acc){
+  return acc.movements.reduce((sum,m)=> sum + (m.type==='ingreso' ? m.amount : -m.amount), 0);
+}
+
+function totalsOf(acc){
+  let income = 0, expense = 0;
+  acc.movements.forEach(m=>{
+    if(m.type==='ingreso') income += m.amount; else expense += m.amount;
+  });
+  return {income, expense};
+}
+
+function daysAgoStr(n){
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0,10);
+}
+
+function last30Totals(acc){
+  const cutoff = daysAgoStr(29);
+  let income = 0, expense = 0;
+  acc.movements.forEach(m=>{
+    if(m.date >= cutoff){
+      if(m.type==='ingreso') income += m.amount; else expense += m.amount;
+    }
+  });
+  return {income, expense};
+}
+
+function monthlySeries(acc){
+  if(acc.movements.length === 0) return [];
+  const sorted = [...acc.movements].sort((a,b)=>a.date.localeCompare(b.date));
+  const firstMonth = sorted[0].date.slice(0,7);
+  const nowMonth = todayStr().slice(0,7);
+  let [fy,fm] = firstMonth.split('-').map(Number);
+  const [ny,nm] = nowMonth.split('-').map(Number);
+  const months = [];
+  let y = fy, m = fm;
+  while(y < ny || (y === ny && m <= nm)){
+    months.push(`${y}-${String(m).padStart(2,'0')}`);
+    m++; if(m > 12){ m = 1; y++; }
+  }
+  const deltaByMonth = {};
+  months.forEach(mo => deltaByMonth[mo] = 0);
+  acc.movements.forEach(mv=>{
+    const mk = mv.date.slice(0,7);
+    if(!(mk in deltaByMonth)) deltaByMonth[mk] = 0;
+    deltaByMonth[mk] += mv.type==='ingreso' ? mv.amount : -mv.amount;
+  });
+  let running = 0;
+  return months.map(mo=>{ running += deltaByMonth[mo]; return running; });
+}
+
+function sparklineSVG(values, height, color){
+  if(!values || values.length < 2) return '';
+  const min = Math.min(...values), max = Math.max(...values);
+  const range = (max - min) || 1;
+  const stepX = 100 / (values.length - 1);
+  const pts = values.map((v,i)=>{
+    const x = i * stepX;
+    const y = height - ((v - min) / range) * height;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const lastY = height - ((values[values.length-1] - min) / range) * height;
+  return `<svg viewBox="0 0 100 ${height}" preserveAspectRatio="none">
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    <circle cx="100" cy="${lastY.toFixed(1)}" r="3" fill="${color}"/>
+  </svg>`;
+}
+
+async function loadAccounts(){
+  try{
+    const res = await storageGet(STORAGE_KEY);
+    accounts = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    accounts = [];
+  }
+  const changed = generateRecurringMovements();
+  if(changed) await saveAccounts();
+  render();
+}
+
+function generateRecurringMovements(){
+  const nowMonth = todayStr().slice(0,7);
+  let changed = false;
+  accounts.forEach(acc=>{
+    if(!acc.recurringTemplates || acc.recurringTemplates.length === 0) return;
+    acc.recurringTemplates.forEach(t=>{
+      let [y,m] = t.lastMonth.split('-').map(Number);
+      while(true){
+        m++;
+        if(m > 12){ m = 1; y++; }
+        const ym = `${y}-${String(m).padStart(2,'0')}`;
+        if(ym > nowMonth) break;
+        const lastDay = new Date(y, m, 0).getDate();
+        const day = Math.min(t.day, lastDay);
+        const dateStr = `${ym}-${String(day).padStart(2,'0')}`;
+        acc.movements.push({id: uid(), type: t.type, amount: t.amount, desc: t.desc, date: dateStr, seriesId: t.id});
+        t.lastMonth = ym;
+        changed = true;
+      }
+    });
+  });
+  return changed;
+}
+
+async function saveAccounts(){
+  try{
+    await storageSet(STORAGE_KEY, JSON.stringify(accounts));
+  }catch(e){
+    console.error('No se pudo guardar', e);
+  }
+}
+
+let dragSourceId = null;
+let confirmCallback = null;
+
+function showToast(message){
+  const container = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = message;
+  container.appendChild(el);
+  requestAnimationFrame(()=> el.classList.add('show'));
+  setTimeout(()=>{
+    el.classList.remove('show');
+    setTimeout(()=> el.remove(), 250);
+  }, 2200);
+}
+
+function showConfirm(message, onConfirm, opts){
+  opts = opts || {};
+  document.getElementById('confirmMessage').textContent = message;
+  const btn = document.getElementById('confirmActionBtn');
+  btn.textContent = opts.confirmLabel || 'Confirmar';
+  btn.className = opts.danger ? 'btn-danger' : 'btn-primary';
+  confirmCallback = onConfirm;
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+function closeConfirm(){
+  document.getElementById('confirmModal').classList.remove('open');
+  confirmCallback = null;
+}
+
+function runConfirm(){
+  const cb = confirmCallback;
+  closeConfirm();
+  if(cb) cb();
+}
+
+function render(){
+  const grid = document.getElementById('gridArea');
+  const archivedContainer = document.getElementById('archivedArea');
+  const visible = accounts.filter(a=>!a.archived);
+  const archived = accounts.filter(a=>a.archived);
+
+  if(visible.length === 0){
+    grid.innerHTML = `
+      <div class="empty">
+        <p class="big">Todavía no tienes cuentas</p>
+        <p>Crea tu primera cuenta de ahorro para empezar a llevar el control.</p>
+      </div>`;
+  }else{
+    grid.innerHTML = `<div class="grid">${visible.map(acc=>{
+      const bal = balanceOf(acc);
+      let goalHtml = '';
+      if(acc.goal && acc.goal > 0){
+        const pct = Math.max(0, Math.min(100, (bal/acc.goal)*100));
+        goalHtml = `
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+          <div class="goal-label">${Math.round(pct)}% de tu meta de ${fmt(acc.goal)}</div>`;
+      }
+      const series = monthlySeries(acc);
+      const sparkColor = bal < 0 ? 'var(--expense)' : 'var(--primary)';
+      const sparkHtml = series.length >= 2 ? `<div class="sparkline">${sparklineSVG(series, 32, sparkColor)}</div>` : '';
+      return `
+        <div class="card" draggable="true"
+             ondragstart="handleDragStart(event,'${acc.id}')"
+             ondragover="handleDragOver(event)"
+             ondragleave="handleDragLeave(event)"
+             ondrop="handleDrop(event,'${acc.id}')"
+             ondragend="handleDragEnd(event)"
+             onclick="openDetail('${acc.id}')">
+          <button class="star-btn ${acc.favorite?'active':''}" onclick="event.stopPropagation(); toggleFavorite('${acc.id}')" aria-label="Marcar como favorita">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.5L12 17.8l-5.9 2.6 1.3-6.5-4.9-4.5 6.6-.8L12 2.5Z"/></svg>
+          </button>
+          <div class="card-photo" style="${avatarStyle(acc)}">${avatarContent(acc)}</div>
+          <p class="card-name">${escapeHtml(acc.name)}</p>
+          <div class="card-balance ${bal<0?'neg':''}">${fmt(bal)}</div>
+          <div class="card-count">${acc.movements.length} movimiento${acc.movements.length===1?'':'s'}</div>
+          ${sparkHtml}
+          ${goalHtml}
+        </div>`;
+    }).join('')}</div>`;
+  }
+
+  if(archived.length === 0){
+    archivedContainer.innerHTML = '';
+  }else{
+    archivedContainer.innerHTML = `
+      <details class="archived-toggle">
+        <summary>Cuentas archivadas (${archived.length})</summary>
+        <div class="archived-grid">
+          ${archived.map(acc=>{
+            const bal = balanceOf(acc);
+            return `
+              <div class="archived-card">
+                <div class="card-photo" style="${avatarStyle(acc)}">${avatarContent(acc)}</div>
+                <p class="card-name">${escapeHtml(acc.name)}</p>
+                <div class="card-balance ${bal<0?'neg':''}">${fmt(bal)}</div>
+                <button class="restore-btn" onclick="unarchiveAccount('${acc.id}')">Restaurar</button>
+              </div>`;
+          }).join('')}
+        </div>
+      </details>`;
+  }
+}
+
+function toggleFavorite(id){
+  const idx = accounts.findIndex(a=>a.id===id);
+  if(idx === -1) return;
+  const acc = accounts[idx];
+  acc.favorite = !acc.favorite;
+  if(acc.favorite){
+    accounts.splice(idx,1);
+    accounts.unshift(acc);
+  }
+  saveAccounts();
+  render();
+  if(currentAccountId === id) renderDetail();
+}
+
+function toggleArchive(){
+  const acc = accounts.find(a=>a.id===currentAccountId);
+  if(!acc) return;
+  if(acc.archived){
+    acc.archived = false;
+    saveAccounts();
+    render();
+    renderDetail();
+    showToast('Cuenta restaurada');
+  }else{
+    showConfirm('¿Archivar esta cuenta? Podrás restaurarla luego desde "Cuentas archivadas".', ()=>{
+      acc.archived = true;
+      saveAccounts();
+      render();
+      closeModal('detailOverlay');
+      showToast('Cuenta archivada');
+    }, {confirmLabel:'Archivar'});
+  }
+}
+
+function unarchiveAccount(id){
+  const acc = accounts.find(a=>a.id===id);
+  if(!acc) return;
+  acc.archived = false;
+  saveAccounts();
+  render();
+  showToast('Cuenta restaurada');
+}
+
+function handleDragStart(e, id){
+  dragSourceId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  e.currentTarget.classList.add('dragging');
+}
+
+function handleDragOver(e){
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(e){
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function handleDrop(e, targetId){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(!dragSourceId || dragSourceId === targetId){ dragSourceId = null; return; }
+  const visible = accounts.filter(a=>!a.archived);
+  const archived = accounts.filter(a=>a.archived);
+  const fromIdx = visible.findIndex(a=>a.id===dragSourceId);
+  const toIdx = visible.findIndex(a=>a.id===targetId);
+  if(fromIdx === -1 || toIdx === -1){ dragSourceId = null; return; }
+  const [moved] = visible.splice(fromIdx,1);
+  visible.splice(toIdx,0,moved);
+  accounts = visible.concat(archived);
+  dragSourceId = null;
+  saveAccounts();
+  render();
+}
+
+function handleDragEnd(e){
+  e.currentTarget.classList.remove('dragging');
+  document.querySelectorAll('.card.drag-over').forEach(el=>el.classList.remove('drag-over'));
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function openNewAccountModal(){
+  accountModalMode = 'create';
+  editingAccountId = null;
+  document.getElementById('accountModalTitle').textContent = 'Nueva cuenta de ahorro';
+  document.getElementById('accountModalSubmit').textContent = 'Crear cuenta';
+  document.getElementById('accName').value = '';
+  document.getElementById('accGoal').value = '';
+  document.getElementById('accNameError').style.display = 'none';
+  document.getElementById('accPhotoInput').value = '';
+  pendingPhotoData = null;
+  pendingColor = null;
+  pendingIcon = null;
+  document.querySelectorAll('.color-swatch, .icon-swatch').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('accPhotoPreview').innerHTML = PERSON_ICON;
+  document.getElementById('accountModal').classList.add('open');
+}
+
+function openEditAccountModal(){
+  const acc = accounts.find(a=>a.id===currentAccountId);
+  if(!acc) return;
+  accountModalMode = 'edit';
+  editingAccountId = acc.id;
+  document.getElementById('accountModalTitle').textContent = 'Editar cuenta';
+  document.getElementById('accountModalSubmit').textContent = 'Guardar cambios';
+  document.getElementById('accName').value = acc.name;
+  document.getElementById('accGoal').value = acc.goal || '';
+  document.getElementById('accNameError').style.display = 'none';
+  document.getElementById('accPhotoInput').value = '';
+  pendingPhotoData = acc.photo || null;
+  document.getElementById('accPhotoPreview').innerHTML = acc.photo ? `<img src="${acc.photo}" alt="">` : PERSON_ICON;
+  pendingColor = acc.color || null;
+  pendingIcon = acc.icon || null;
+  document.querySelectorAll('#colorSwatchRow .color-swatch').forEach(b=>{
+    b.classList.toggle('selected', !!pendingColor && b.dataset.color === pendingColor);
+  });
+  document.querySelectorAll('#iconSwatchRow .icon-swatch').forEach(b=>b.classList.remove('selected'));
+  if(pendingIcon){
+    const idx = Object.keys(ICONS).indexOf(pendingIcon);
+    const btns = document.querySelectorAll('#iconSwatchRow .icon-swatch');
+    if(idx >= 0 && btns[idx]) btns[idx].classList.add('selected');
+  }
+  document.getElementById('accountModal').classList.add('open');
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+
+function handlePhotoSelect(event, previewId){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    pendingPhotoData = e.target.result;
+    document.getElementById(previewId).innerHTML = `<img src="${pendingPhotoData}" alt="">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitAccountModal(){
+  const name = document.getElementById('accName').value.trim();
+  const goalRaw = document.getElementById('accGoal').value;
+  const goal = goalRaw ? parseFloat(goalRaw) : null;
+  if(!name){
+    document.getElementById('accNameError').style.display = 'block';
+    return;
+  }
+  document.getElementById('accNameError').style.display = 'none';
+
+  if(accountModalMode === 'edit'){
+    const acc = accounts.find(a=>a.id===editingAccountId);
+    if(acc){
+      acc.name = name;
+      acc.goal = goal && goal > 0 ? goal : null;
+      acc.photo = pendingPhotoData;
+      acc.color = pendingColor;
+      acc.icon = pendingIcon;
+    }
+  }else{
+    accounts.push({
+      id: uid(),
+      name,
+      goal: goal && goal > 0 ? goal : null,
+      photo: pendingPhotoData,
+      color: pendingColor,
+      icon: pendingIcon,
+      favorite: false,
+      archived: false,
+      recurringTemplates: [],
+      movements: []
+    });
+  }
+  await saveAccounts();
+  render();
+  if(accountModalMode === 'edit') renderDetail();
+  closeModal('accountModal');
+  showToast(accountModalMode === 'edit' ? 'Cambios guardados' : 'Cuenta creada');
+}
+
+function openDetail(id){
+  currentAccountId = id;
+  currentMoveType = 'ingreso';
+  editingMoveId = null;
+  document.getElementById('moveDesc').value = '';
+  document.getElementById('moveAmount').value = '';
+  document.getElementById('moveDate').value = todayStr();
+  document.getElementById('moveRecurring').checked = false;
+  document.getElementById('moveRecurringRow').style.display = 'flex';
+  document.getElementById('moveError').style.display = 'none';
+  document.getElementById('moveSubmitBtn').textContent = 'Agregar movimiento';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+  document.getElementById('moveSearch').value = '';
+  document.getElementById('moveMonthFilter').value = '';
+  setMoveType('ingreso');
+  renderDetail();
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function renderDetail(){
+  const acc = accounts.find(a=>a.id===currentAccountId);
+  if(!acc) return;
+  document.getElementById('detailName').textContent = acc.name;
+  document.getElementById('detailPhoto').setAttribute('style', avatarStyle(acc));
+  document.getElementById('detailPhoto').innerHTML = avatarContent(acc);
+  document.getElementById('detailStarBtn').className = 'detail-star-btn' + (acc.favorite ? ' active' : '');
+  const bal = balanceOf(acc);
+  const balEl = document.getElementById('detailBalance');
+  balEl.textContent = fmt(bal);
+  balEl.className = bal < 0 ? 'neg' : '';
+
+  const series = monthlySeries(acc);
+  const sparkColor = bal < 0 ? 'var(--expense)' : 'var(--primary)';
+  document.getElementById('detailSparkline').innerHTML = series.length >= 2
+    ? sparklineSVG(series, 70, sparkColor)
+    : '<p class="no-moves">Todavía no hay suficiente historial para la gráfica.</p>';
+
+  const goalArea = document.getElementById('goalArea');
+  if(acc.goal && acc.goal > 0){
+    const pct = Math.max(0, Math.min(100, (bal/acc.goal)*100));
+    goalArea.innerHTML = `
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+      <div class="goal-label">${Math.round(pct)}% de tu meta de ${fmt(acc.goal)}</div>`;
+  }else{
+    goalArea.innerHTML = '';
+  }
+
+  const totals = totalsOf(acc);
+  document.getElementById('statIncome').textContent = fmt(totals.income);
+  document.getElementById('statExpense').textContent = fmt(totals.expense);
+
+  const totals30 = last30Totals(acc);
+  document.getElementById('statIncome30').textContent = fmt(totals30.income);
+  document.getElementById('statExpense30').textContent = fmt(totals30.expense);
+
+  const archiveBtn = document.getElementById('archiveBtn');
+  archiveBtn.textContent = acc.archived ? 'Restaurar esta cuenta' : 'Archivar esta cuenta';
+
+  const recurringArea = document.getElementById('recurringArea');
+  const templates = acc.recurringTemplates || [];
+  if(templates.length === 0){
+    recurringArea.innerHTML = '';
+  }else{
+    recurringArea.innerHTML = `
+      <div class="stats-label">Repiten cada mes</div>
+      ${templates.map(t=>`
+        <div class="recurring-item">
+          <span>${REPEAT_ICON}${escapeHtml(t.desc)} · ${t.type==='ingreso'?'+':'-'}${fmt(t.amount)} (día ${t.day})</span>
+          <button onclick="cancelRecurring('${t.id}')">Cancelar</button>
+        </div>`).join('')}`;
+  }
+
+  const searchVal = (document.getElementById('moveSearch').value || '').trim().toLowerCase();
+  const monthVal = document.getElementById('moveMonthFilter').value || '';
+
+  let filtered = acc.movements.filter(m=>{
+    const matchesSearch = !searchVal || m.desc.toLowerCase().includes(searchVal);
+    const matchesMonth = !monthVal || m.date.slice(0,7) === monthVal;
+    return matchesSearch && matchesMonth;
+  });
+
+  const list = document.getElementById('movesList');
+  if(acc.movements.length === 0){
+    list.innerHTML = `<p class="no-moves">Todavía no hay movimientos en esta cuenta.</p>`;
+  }else if(filtered.length === 0){
+    list.innerHTML = `<p class="no-moves">Ningún movimiento coincide con la búsqueda.</p>`;
+  }else{
+    const sorted = [...filtered].sort((a,b)=> b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
+    list.innerHTML = sorted.map(m=>`
+      <div class="move-row">
+        <div>
+          <div class="move-desc">${m.seriesId ? REPEAT_ICON : ''}${escapeHtml(m.desc)}</div>
+          <div class="move-date">${new Date(m.date + 'T00:00:00').toLocaleDateString('es-SV',{day:'numeric',month:'short',year:'numeric'})}</div>
+        </div>
+        <div class="move-amount ${m.type==='ingreso'?'income':'expense'}">${m.type==='ingreso'?'+':'-'}${fmt(m.amount)}</div>
+        <div class="move-actions">
+          <button class="icon-btn" onclick="startEditMovement('${m.id}')" aria-label="Editar movimiento">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </button>
+          <button class="icon-btn" onclick="removeMovement('${m.id}')" aria-label="Eliminar movimiento">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7"/></svg>
+          </button>
+        </div>
+      </div>`).join('');
+  }
+}
+
+function cancelRecurring(templateId){
+  const acc = accounts.find(a=>a.id===currentAccountId);
+  if(!acc) return;
+  showConfirm('¿Cancelar esta repetición? Los movimientos ya agregados no se eliminarán.', ()=>{
+    acc.recurringTemplates = (acc.recurringTemplates || []).filter(t=>t.id !== templateId);
+    saveAccounts();
+    renderDetail();
+    showToast('Repetición cancelada');
+  });
+}
+
+
+function setMoveType(type){
+  currentMoveType = type;
+  document.getElementById('btnIncome').className = type==='ingreso' ? 'active-income' : '';
+  document.getElementById('btnExpense').className = type==='egreso' ? 'active-expense' : '';
+}
+
+function startEditMovement(moveId){
+  const acc = accounts.find(a=>a.id===currentAccountId);
+  if(!acc) return;
+  const move = acc.movements.find(m=>m.id===moveId);
+  if(!move) return;
+  editingMoveId = moveId;
+  setMoveType(move.type);
+  document.getElementById('moveDesc').value = move.desc;
+  document.getElementById('moveAmount').value = move.amount;
+  document.getElementById('moveDate').value = move.date;
+  document.getElementById('moveRecurringRow').style.display = 'none';
+  document.getElementById('moveError').style.display = 'none';
+  document.getElementById('moveSubmitBtn').textContent = 'Guardar cambios';
+  document.getElementById('cancelEditBtn').style.display = 'inline';
+  document.getElementById('moveDesc').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function cancelEditMovement(){
+  editingMoveId = null;
+  document.getElementById('moveDesc').value = '';
+  document.getElementById('moveAmount').value = '';
+  document.getElementById('moveDate').value = todayStr();
+  document.getElementById('moveRecurring').checked = false;
+  document.getElementById('moveRecurringRow').style.display = 'flex';
+  document.getElementById('moveError').style.display = 'none';
+  document.getElementById('moveSubmitBtn').textContent = 'Agregar movimiento';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+  setMoveType('ingreso');
+}
+
+async function addMovement(){
+  const acc = accounts.find(a=>a.id===currentAccountId);
+  if(!acc) return;
+  const desc = document.getElementById('moveDesc').value.trim();
+  const amount = parseFloat(document.getElementById('moveAmount').value);
+  const date = document.getElementById('moveDate').value || todayStr();
+  if(!desc || isNaN(amount) || amount <= 0){
+    document.getElementById('moveError').style.display = 'block';
+    return;
+  }
+  document.getElementById('moveError').style.display = 'none';
+
+  if(editingMoveId){
+    const move = acc.movements.find(m=>m.id===editingMoveId);
+    if(move){
+      move.type = currentMoveType;
+      move.amount = amount;
+      move.desc = desc;
+      move.date = date;
+    }
+  }else{
+    const isRecurring = document.getElementById('moveRecurring').checked;
+    const newId = uid();
+    acc.movements.push({
+      id: newId,
+      type: currentMoveType,
+      amount,
+      desc,
+      date,
+      seriesId: isRecurring ? newId : undefined
+    });
+    if(isRecurring){
+      if(!acc.recurringTemplates) acc.recurringTemplates = [];
+      acc.recurringTemplates.push({
+        id: newId,
+        type: currentMoveType,
+        amount,
+        desc,
+        day: parseInt(date.split('-')[2], 10),
+        lastMonth: date.slice(0,7)
+      });
+    }
+  }
+
+  await saveAccounts();
+  const wasEdit = !!editingMoveId;
+  cancelEditMovement();
+  renderDetail();
+  render();
+  showToast(wasEdit ? 'Movimiento actualizado' : 'Movimiento agregado');
+}
+
+async function removeMovement(moveId){
+  const acc = accounts.find(a=>a.id===currentAccountId);
+  if(!acc) return;
+  showConfirm('¿Eliminar este movimiento?', async ()=>{
+    acc.movements = acc.movements.filter(m=>m.id !== moveId);
+    if(editingMoveId === moveId) cancelEditMovement();
+    await saveAccounts();
+    renderDetail();
+    render();
+    showToast('Movimiento eliminado');
+  }, {confirmLabel:'Eliminar', danger:true});
+}
+
+async function deleteAccount(){
+  showConfirm('¿Eliminar esta cuenta y todos sus movimientos? Esta acción no se puede deshacer.', async ()=>{
+    accounts = accounts.filter(a=>a.id !== currentAccountId);
+    await saveAccounts();
+    closeModal('detailOverlay');
+    render();
+    showToast('Cuenta eliminada');
+  }, {confirmLabel:'Eliminar', danger:true});
+}
+
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+});
+
+window.addEventListener('appinstalled', ()=>{
+  deferredInstallPrompt = null;
+  showToast('¡Alcancía instalada!');
+});
+
+async function handleInstallClick(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    const choice = await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    if(choice && choice.outcome === 'accepted') showToast('¡Alcancía instalada!');
+    return;
+  }
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  let text;
+  if(isIOS){
+    text = 'Este celular no permite instalar automáticamente. Toca el ícono de compartir (el cuadrito con la flecha hacia arriba) en Safari y elige "Agregar a inicio".';
+  }else if(isAndroid){
+    text = 'Tu navegador no ofreció la instalación automática en este momento (pasa si el archivo se abrió directo desde Descargas). Toca los tres puntos de arriba a la derecha y busca "Agregar a pantalla de inicio" o "Instalar aplicación".';
+  }else{
+    text = 'La instalación automática no está disponible en este navegador. Busca en el menú del navegador la opción "Agregar a pantalla de inicio" o "Instalar aplicación".';
+  }
+  document.getElementById('installHelpText').textContent = text;
+  document.getElementById('installHelpModal').classList.add('open');
+}
+
+loadTheme();
+loadAccounts();
+</script>
+</body>
+</html>
