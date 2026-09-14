@@ -559,9 +559,17 @@
     <div id="codePhoneBox" class="hidden">
       <p>Escribe tu número de teléfono, por si un día pierdes tu código o contraseña.</p>
       <input type="tel" id="codePhoneInput" placeholder="Tu número de teléfono" style="text-align:center;max-width:280px;margin:0 auto 6px;display:block;">
+      <p class="error-text" id="codePhoneError">Ese número ya está en uso con otro código.</p>
       <p class="hint">Es opcional, pero sin él no vas a poder recuperar tu código si lo olvidas.</p>
       <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="startGenerateCode()">Continuar</button>
       <button class="edit-profiles-link" style="display:block;margin:14px auto 0;" onclick="showCodeMode('choice')">Volver</button>
+    </div>
+
+    <div id="codePendingBox" class="hidden">
+      <p style="font-size:26px;margin:0 0 6px;">⏳</p>
+      <p>Tu código ya se creó, pero todavía falta que la propietaria lo apruebe.</p>
+      <p style="font-weight:700;">Esperando aprobación, intenta más tarde.</p>
+      <button class="btn-primary" style="max-width:280px;margin:8px auto 0;display:block;padding:12px 24px;" onclick="showCodeMode('choice')">Entendido</button>
     </div>
 
     <div id="codeEnterBox" class="hidden">
@@ -691,9 +699,6 @@
     <button class="add-btn" onclick="openNewAccountModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
       Nueva cuenta
-    </button>
-    <button class="gear-btn" onclick="shareApp()" aria-label="Compartir app">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
     </button>
   </div>
 
@@ -979,12 +984,21 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
     </button>
     <h2>Acceso de propietaria</h2>
-    <p>Tu código de un solo uso (nuevo cada vez, nunca se repite):</p>
-    <p style="font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--primary-dark);text-align:center;margin:14px 0;" id="ownerCodeDisplay"></p>
-    <label for="ownerCodeInput">Escríbelo para confirmar que eres tú</label>
-    <input type="text" id="ownerCodeInput" placeholder="Escribe el código de arriba" style="text-transform:uppercase;">
-    <p class="error-text" id="ownerCodeError">Ese código no es correcto.</p>
-    <button class="btn-primary" style="width:100%;" onclick="submitOwnerCode()">Entrar</button>
+
+    <div id="ownerPhoneSetupBox">
+      <p>Primera vez aquí. Escribe tu número para poder enviarte el código de acceso.</p>
+      <input type="tel" id="ownerPhoneSetupInput" placeholder="Tu número de teléfono">
+      <p class="error-text" id="ownerPhoneSetupError">Escribe un número válido.</p>
+      <button class="btn-primary" style="width:100%;" onclick="submitOwnerPhoneSetup()">Guardar y continuar</button>
+    </div>
+
+    <div id="ownerCodeSentBox" class="hidden">
+      <p id="ownerSendStatus">Te enviamos una notificación a tu teléfono con el código.</p>
+      <label for="ownerCodeInput">Escribe el código que recibiste</label>
+      <input type="text" id="ownerCodeInput" placeholder="Código de 6 caracteres" style="text-transform:uppercase;">
+      <p class="error-text" id="ownerCodeError">Ese código no es correcto.</p>
+      <button class="btn-primary" style="width:100%;" onclick="submitOwnerCode()">Entrar</button>
+    </div>
   </div>
 </div>
 
@@ -1005,13 +1019,27 @@
         <strong id="ownerStatCodesWithProfiles">0</strong>
       </div>
     </div>
-    <div class="stats-row">
-      <div class="stat-box expense">
-        <span>Veces compartida</span>
-        <strong id="ownerStatShares">0</strong>
-      </div>
+
+    <div class="stats-label">Códigos pendientes de aprobar</div>
+    <div id="ownerPendingList"></div>
+
+    <button class="edit-profiles-link" style="display:block;margin-top:18px;" onclick="openOwnerPhoneEdit()">📱 Cambiar mi número de propietaria</button>
+  </div>
+</div>
+
+<!-- Modal: editar teléfono de propietaria -->
+<div class="overlay" id="ownerPhoneEditModal">
+  <div class="modal" style="max-width:380px;">
+    <button class="close-x" onclick="closeModal('ownerPhoneEditModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2>Mi número de propietaria</h2>
+    <label for="ownerPhoneEditInput">Número de teléfono</label>
+    <input type="tel" id="ownerPhoneEditInput" placeholder="Tu número de teléfono">
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('ownerPhoneEditModal')">Cancelar</button>
+      <button class="btn-primary" onclick="submitOwnerPhoneEdit()">Guardar</button>
     </div>
-    <p class="hint">"Veces compartida" solo cuenta cuando alguien usa el botón "Compartir" de la propia app — no detecta si alguien copia el enlace directo del navegador.</p>
   </div>
 </div>
 
@@ -1103,9 +1131,23 @@ function accountsKey(){
   return 'cuentas:' + currentProfileId;
 }
 
+window.addEventListener('storage', (e)=>{
+  if(!e.key) return;
+  if(currentProfileId && e.key === accountsKey()){
+    loadAccounts();
+  }
+});
+
 function profilesKey(){
   return PROFILES_KEY + ':' + currentCode;
 }
+
+window.addEventListener('storage', (e)=>{
+  if(!e.key) return;
+  if(currentCode && e.key === profilesKey() && document.getElementById('profileScreen') && !document.getElementById('profileScreen').classList.contains('hidden')){
+    loadProfiles();
+  }
+});
 
 async function storageGet(key){
   if(window.storage){
@@ -1213,6 +1255,7 @@ function showCodeMode(mode){
   document.getElementById('codeEnterBox').classList.toggle('hidden', mode !== 'enter');
   document.getElementById('codePhoneBox').classList.toggle('hidden', mode !== 'phone');
   document.getElementById('codeRecoverBox').classList.toggle('hidden', mode !== 'recover');
+  document.getElementById('codePendingBox').classList.add('hidden');
   document.getElementById('codeGeneratingBox').classList.add('hidden');
   document.getElementById('codeEnteringBox').classList.add('hidden');
   document.getElementById('codeResultBox').classList.add('hidden');
@@ -1226,6 +1269,7 @@ function showCodeMode(mode){
     });
   }else if(mode === 'phone'){
     document.getElementById('codePhoneInput').value = '';
+    document.getElementById('codePhoneError').style.display = 'none';
   }else if(mode === 'recover'){
     document.getElementById('recoverPhoneInput').value = '';
     document.getElementById('recoverError').style.display = 'none';
@@ -1242,7 +1286,7 @@ async function submitRecoverPhone(){
   for(const code of registry){
     const meta = await getCodeMeta(code);
     if(meta && meta.phone === phone){
-      await setCodeMeta(code, {password: meta.password, mustChange: true, phone: meta.phone});
+      await setCodeMeta(code, {password: meta.password, mustChange: true, phone: meta.phone, approved: meta.approved});
       document.getElementById('recoverSuccessMsg').textContent = `Encontramos tu código: ${code}. Vas a tener que crear una contraseña nueva.`;
       document.getElementById('recoverSuccessMsg').style.display = 'block';
       currentCode = code;
@@ -1259,8 +1303,25 @@ async function submitRecoverPhone(){
   document.getElementById('recoverError').style.display = 'block';
 }
 
+async function isPhoneTaken(phone, excludeCode){
+  if(!phone) return false;
+  const registry = await getCodeRegistry();
+  for(const code of registry){
+    if(code === excludeCode) continue;
+    const meta = await getCodeMeta(code);
+    if(meta && meta.phone === phone) return true;
+  }
+  return false;
+}
+
 async function startGenerateCode(){
   const phone = document.getElementById('codePhoneInput').value.trim();
+  document.getElementById('codePhoneError').style.display = 'none';
+  if(phone && await isPhoneTaken(phone, null)){
+    document.getElementById('codePhoneError').textContent = 'Ese número ya está en uso con otro código.';
+    document.getElementById('codePhoneError').style.display = 'block';
+    return;
+  }
   document.getElementById('codeChoice').classList.add('hidden');
   document.getElementById('codePhoneBox').classList.add('hidden');
   document.getElementById('codeEnterBox').classList.add('hidden');
@@ -1275,7 +1336,7 @@ async function startGenerateCode(){
 
   setTimeout(async ()=>{
     await addCodeToRegistry(newCode);
-    await setCodeMeta(newCode, {password: newPassword, mustChange: true, phone: phone || null});
+    await setCodeMeta(newCode, {password: newPassword, mustChange: true, phone: phone || null, approved: false});
 
     document.getElementById('resultCode').textContent = newCode;
     document.getElementById('resultPassword').textContent = newPassword;
@@ -1286,9 +1347,14 @@ async function startGenerateCode(){
   }, 1300);
 }
 
-function proceedFromCodeResult(){
+async function proceedFromCodeResult(){
   currentCode = pendingForceChangeCode;
   document.getElementById('codeResultBox').classList.add('hidden');
+  const meta = await getCodeMeta(currentCode);
+  if(meta && meta.approved === false){
+    document.getElementById('codePendingBox').classList.remove('hidden');
+    return;
+  }
   document.getElementById('forceNewPassword').value = '';
   document.getElementById('forceNewPasswordConfirm').value = '';
   document.getElementById('forceChangeError').style.display = 'none';
@@ -1306,6 +1372,11 @@ async function submitCode(){
   const meta = await getCodeMeta(val);
   if(!meta || meta.password !== pass){
     document.getElementById('codeError').textContent = 'Código o contraseña incorrectos.';
+    document.getElementById('codeError').style.display = 'block';
+    return;
+  }
+  if(meta.approved === false){
+    document.getElementById('codeError').textContent = 'Esperando aprobación, intenta más tarde.';
     document.getElementById('codeError').style.display = 'block';
     return;
   }
@@ -1340,7 +1411,7 @@ async function submitForcePasswordChange(){
   }
   document.getElementById('forceChangeError').style.display = 'none';
   const existingMeta = await getCodeMeta(currentCode);
-  await setCodeMeta(currentCode, {password: p1, mustChange: false, phone: existingMeta ? existingMeta.phone : null});
+  await setCodeMeta(currentCode, {password: p1, mustChange: false, phone: existingMeta ? existingMeta.phone : null, approved: existingMeta ? existingMeta.approved : true});
   await rememberLogin(currentCode, p1);
   document.getElementById('codeScreen').classList.add('hidden');
   document.getElementById('profileScreen').classList.remove('hidden');
@@ -1351,7 +1422,7 @@ async function submitForcePasswordChange(){
 /* ---------- Acceso oculto de propietaria ---------- */
 
 const OWNER_USED_CODES_KEY = 'owner_codigos_usados';
-const SHARE_COUNT_KEY = 'veces_compartidas';
+const OWNER_PHONE_KEY = 'owner_telefono';
 let ownerTapCount = 0;
 let ownerTapTimer = null;
 let currentOwnerCode = null;
@@ -1366,7 +1437,7 @@ function handleOwnerTap(){
   }
 }
 
-async function openOwnerGate(){
+async function generateOwnerCode(){
   const usedRes = await storageGet(OWNER_USED_CODES_KEY);
   const used = usedRes && usedRes.value ? JSON.parse(usedRes.value) : [];
   let candidate;
@@ -1375,11 +1446,65 @@ async function openOwnerGate(){
   }while(used.includes(candidate));
   used.push(candidate);
   await storageSet(OWNER_USED_CODES_KEY, JSON.stringify(used));
-  currentOwnerCode = candidate;
-  document.getElementById('ownerCodeDisplay').textContent = candidate;
-  document.getElementById('ownerCodeInput').value = '';
+  return candidate;
+}
+
+async function sendOwnerCode(code){
+  const statusEl = document.getElementById('ownerSendStatus');
+  if(!('Notification' in window)){
+    statusEl.textContent = 'Tu navegador no admite notificaciones, así que por esta vez te lo mostramos aquí: ' + code;
+    return;
+  }
+  try{
+    let permission = Notification.permission;
+    if(permission === 'default'){
+      permission = await Notification.requestPermission();
+    }
+    if(permission === 'granted'){
+      new Notification('Mi alcancía', {body: 'Tu código de propietaria: ' + code});
+      statusEl.textContent = 'Te enviamos una notificación a tu teléfono con el código.';
+    }else{
+      statusEl.textContent = 'No tienes las notificaciones activadas, así que por esta vez te lo mostramos aquí: ' + code;
+    }
+  }catch(e){
+    statusEl.textContent = 'No se pudo enviar la notificación, así que por esta vez te lo mostramos aquí: ' + code;
+  }
+}
+
+async function openOwnerGate(){
+  const phoneRes = await storageGet(OWNER_PHONE_KEY);
+  const ownerPhone = phoneRes && phoneRes.value ? phoneRes.value : null;
+  document.getElementById('ownerPhoneSetupError').style.display = 'none';
   document.getElementById('ownerCodeError').style.display = 'none';
+
+  if(!ownerPhone){
+    document.getElementById('ownerPhoneSetupInput').value = '';
+    document.getElementById('ownerPhoneSetupBox').classList.remove('hidden');
+    document.getElementById('ownerCodeSentBox').classList.add('hidden');
+    document.getElementById('ownerGateModal').classList.add('open');
+    return;
+  }
+
+  document.getElementById('ownerPhoneSetupBox').classList.add('hidden');
+  document.getElementById('ownerCodeSentBox').classList.remove('hidden');
+  document.getElementById('ownerCodeInput').value = '';
+  currentOwnerCode = await generateOwnerCode();
   document.getElementById('ownerGateModal').classList.add('open');
+  await sendOwnerCode(currentOwnerCode);
+}
+
+async function submitOwnerPhoneSetup(){
+  const phone = document.getElementById('ownerPhoneSetupInput').value.trim();
+  if(!phone){
+    document.getElementById('ownerPhoneSetupError').style.display = 'block';
+    return;
+  }
+  await storageSet(OWNER_PHONE_KEY, phone);
+  document.getElementById('ownerPhoneSetupBox').classList.add('hidden');
+  document.getElementById('ownerCodeSentBox').classList.remove('hidden');
+  document.getElementById('ownerCodeInput').value = '';
+  currentOwnerCode = await generateOwnerCode();
+  await sendOwnerCode(currentOwnerCode);
 }
 
 async function submitOwnerCode(){
@@ -1395,18 +1520,51 @@ async function submitOwnerCode(){
 async function openOwnerDashboard(){
   const registry = await getCodeRegistry();
   let withProfiles = 0;
+  const pending = [];
   for(const code of registry){
     const res = await storageGet('perfiles:' + code);
     const list = res && res.value ? JSON.parse(res.value) : [];
     if(list.length > 0) withProfiles++;
+    const meta = await getCodeMeta(code);
+    if(meta && meta.approved === false) pending.push(code);
   }
-  const sharesRes = await storageGet(SHARE_COUNT_KEY);
-  const shares = sharesRes && sharesRes.value ? parseInt(sharesRes.value, 10) : 0;
 
   document.getElementById('ownerStatCodes').textContent = registry.length;
   document.getElementById('ownerStatCodesWithProfiles').textContent = withProfiles;
-  document.getElementById('ownerStatShares').textContent = shares;
+
+  const list = document.getElementById('ownerPendingList');
+  if(pending.length === 0){
+    list.innerHTML = '<p class="hint">No hay códigos esperando aprobación.</p>';
+  }else{
+    list.innerHTML = pending.map(code => `
+      <div class="recurring-item">
+        <span>${code}</span>
+        <button onclick="approveOwnerCode('${code}')">Aceptar</button>
+      </div>`).join('');
+  }
+
   document.getElementById('ownerDashboardModal').classList.add('open');
+}
+
+async function approveOwnerCode(code){
+  const meta = await getCodeMeta(code);
+  if(!meta) return;
+  await setCodeMeta(code, {password: meta.password, mustChange: meta.mustChange, phone: meta.phone, approved: true});
+  showToast(`Código ${code} aprobado`);
+  openOwnerDashboard();
+}
+
+async function openOwnerPhoneEdit(){
+  const res = await storageGet(OWNER_PHONE_KEY);
+  document.getElementById('ownerPhoneEditInput').value = res && res.value ? res.value : '';
+  document.getElementById('ownerPhoneEditModal').classList.add('open');
+}
+
+async function submitOwnerPhoneEdit(){
+  const phone = document.getElementById('ownerPhoneEditInput').value.trim();
+  await storageSet(OWNER_PHONE_KEY, phone);
+  closeModal('ownerPhoneEditModal');
+  showToast('Número actualizado');
 }
 
 async function shareApp(){
@@ -1418,9 +1576,6 @@ async function shareApp(){
       await navigator.clipboard.writeText(url);
       showToast('Enlace copiado');
     }
-    const res = await storageGet(SHARE_COUNT_KEY);
-    const count = (res && res.value ? parseInt(res.value, 10) : 0) + 1;
-    await storageSet(SHARE_COUNT_KEY, String(count));
   }catch(e){}
 }
 
@@ -1432,8 +1587,12 @@ async function openPhoneManageModal(){
 
 async function submitPhoneManage(){
   const phone = document.getElementById('phoneManageInput').value.trim();
+  if(phone && await isPhoneTaken(phone, currentCode)){
+    showToast('Ese número ya está en uso con otro código');
+    return;
+  }
   const meta = await getCodeMeta(currentCode);
-  await setCodeMeta(currentCode, {password: meta ? meta.password : null, mustChange: meta ? meta.mustChange : false, phone: phone || null});
+  await setCodeMeta(currentCode, {password: meta ? meta.password : null, mustChange: meta ? meta.mustChange : false, phone: phone || null, approved: meta ? meta.approved : true});
   closeModal('phoneManageModal');
   showToast('Número actualizado');
 }
@@ -1460,8 +1619,20 @@ async function loadProfiles(){
 
 async function saveProfiles(){
   try{
-    await storageSet(profilesKey(), JSON.stringify(profiles));
+    const current = await storageGet(profilesKey());
+    if(current && current.value){
+      const stored = JSON.parse(current.value);
+      const myIds = new Set(profiles.map(p=>p.id));
+      const missing = stored.filter(p=>!myIds.has(p.id));
+      if(missing.length > 0){
+        profiles = profiles.concat(missing);
+      }
+    }
   }catch(e){}
+  const result = await storageSet(profilesKey(), JSON.stringify(profiles));
+  if(!result){
+    showToast('⚠️ No se pudo guardar (memoria llena).');
+  }
 }
 
 function profileAvatarHtml(p){
@@ -1548,15 +1719,41 @@ function deleteProfileFromModal(){
   removeProfile(id);
 }
 
+function compressImage(file, maxSize, quality){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let { width, height } = img;
+        if(width > height && width > maxSize){
+          height = Math.round(height * (maxSize / width));
+          width = maxSize;
+        }else if(height > maxSize){
+          width = Math.round(width * (maxSize / height));
+          height = maxSize;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 function handleProfilePhotoSelect(event){
   const file = event.target.files[0];
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e=>{
-    pendingProfilePhoto = e.target.result;
-    document.getElementById('profilePhotoPreview').innerHTML = `<img src="${pendingProfilePhoto}" alt="">`;
-  };
-  reader.readAsDataURL(file);
+  compressImage(file, 200, 0.7).then(dataUrl=>{
+    pendingProfilePhoto = dataUrl;
+    document.getElementById('profilePhotoPreview').innerHTML = `<img src="${dataUrl}" alt="">`;
+  }).catch(()=> showToast('No se pudo procesar la foto'));
 }
 
 function selectProfileEmoji(emoji, el){
@@ -2008,9 +2205,20 @@ function generateRecurringMovements(){
 
 async function saveAccounts(){
   try{
-    await storageSet(accountsKey(), JSON.stringify(accounts));
-  }catch(e){
-    console.error('No se pudo guardar', e);
+    const current = await storageGet(accountsKey());
+    if(current && current.value){
+      const stored = JSON.parse(current.value);
+      const myIds = new Set(accounts.map(a=>a.id));
+      const missing = stored.filter(a=>!myIds.has(a.id));
+      if(missing.length > 0){
+        accounts = accounts.concat(missing);
+        render();
+      }
+    }
+  }catch(e){}
+  const result = await storageSet(accountsKey(), JSON.stringify(accounts));
+  if(!result){
+    showToast('⚠️ No se pudo guardar (memoria llena). Usa fotos más pequeñas.');
   }
 }
 
@@ -2284,12 +2492,10 @@ function closeModal(id){
 function handlePhotoSelect(event, previewId){
   const file = event.target.files[0];
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e=>{
-    pendingPhotoData = e.target.result;
-    document.getElementById(previewId).innerHTML = `<img src="${pendingPhotoData}" alt="">`;
-  };
-  reader.readAsDataURL(file);
+  compressImage(file, 240, 0.7).then(dataUrl=>{
+    pendingPhotoData = dataUrl;
+    document.getElementById(previewId).innerHTML = `<img src="${dataUrl}" alt="">`;
+  }).catch(()=> showToast('No se pudo procesar la foto'));
 }
 
 let submittingAccount = false;
